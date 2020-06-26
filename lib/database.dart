@@ -4,6 +4,7 @@ import './assets/item.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+
 Future<Database> groceryDatabase() async{
   final Future<Database> database = openDatabase(
     join(await getDatabasesPath(), 'groceries_database.db'),
@@ -28,6 +29,7 @@ Future<void> insertItem(Item item) async {
   );
 }
 
+
 final onion = Item(
   id: 0,
   name: 'Onion',
@@ -36,6 +38,4 @@ final onion = Item(
   amountBase: 7,
 );
 
-void main() async{
-  await insertItem(onion);
-}
+var items = [onion,];

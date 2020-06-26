@@ -14,12 +14,15 @@ Widget myDrawer(Function func, Map pages) {
             child: Text('Options', style: text['header']),
           ),
           ...((pages.keys).map((pageKey) {
-            return ListTile(
-              title: Text('${pages[pageKey][1]} auto'),
+            return Center(child: ListTile(
+              key: Key('${pageKey}_listTile'),
+              leading: pages[pageKey][2],
+              title: Text('${pages[pageKey][1]}', style: text['drawerOption']),
               onTap: () {
                 func(pageKey);
                 Navigator.pop(context);
               },
+            ),
             );
           })),
         ],

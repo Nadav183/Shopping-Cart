@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-import '../assets/item.dart';
-var items = [Item(name: 'Onion', pricePerUnit: 1.3,amountInStock: 0,amountBase: 5),
-             Item(name: 'Tomato', pricePerUnit: 2.3,amountInStock: 0,amountBase: 8),
-             Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
-  Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),];
+import '../database.dart';
 
 class Index extends StatelessWidget {
 
