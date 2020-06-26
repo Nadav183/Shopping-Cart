@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './item.dart';
+import '../assets/item.dart';
 var items = [Item(name: 'Onion', pricePerUnit: 1.3,amountInStock: 0,amountBase: 5),
   Item(name: 'Tomato', pricePerUnit: 2.3,amountInStock: 0,amountBase: 8),
   Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),
@@ -14,7 +14,7 @@ var items = [Item(name: 'Onion', pricePerUnit: 1.3,amountInStock: 0,amountBase: 
   Item(name: 'Ground Beef Kilo', pricePerUnit: 32,amountInStock: 0,amountBase: 2),];
 
 
-class Shop extends StatelessWidget {
+class ReStock extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +23,7 @@ class Shop extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(child:Text('Item\'s Names', textAlign: TextAlign.left)),
+              Expanded(child:Text('restocking', textAlign: TextAlign.left)),
               Expanded(child:Text('Price Per Unit',textAlign: TextAlign.center)),
               Expanded(child:Text('Stock',textAlign: TextAlign.right)),
             ],
