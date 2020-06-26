@@ -20,10 +20,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(home: Scaffold(
         appBar: AppBar(title: Text('My App')),
         body: (bodyPage[curPage]),
-        floatingActionButton: FloatingActionButton.extended(
-          label: Icon(Icons.add,),
-          onPressed: () => {},
-        ),
     )
     );
   }
