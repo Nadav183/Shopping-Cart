@@ -3,7 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../pages/addForm.dart';
 import '../db/database.dart';
 
-Widget myFloatingButton() {
+Widget myFloatingButton(Function func) {
   return Builder(builder: (context) => SpeedDial(
     child: Icon(Icons.add),
     children: <SpeedDialChild>[
@@ -12,6 +12,7 @@ Widget myFloatingButton() {
         label: 'Add item',
         backgroundColor: Colors.green,
         onTap: () {
+          func();
           Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => TestForm())

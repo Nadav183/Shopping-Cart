@@ -26,6 +26,7 @@ class _MyAppState extends State<MyApp> {
     'restock':[ReStock(),'ReStock Items', Icon(Icons.playlist_add)],
   };
   void _changePage(String page) => setState(() {curPage = page;});
+  void _emptySetState() => setState(() {bodyPage['index'][0] = Index();});
   @override
   void initState() {
     super.initState();
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: Text(bodyPage[curPage][1],style: text['header'])),
         body: (bodyPage[curPage][0]),
         endDrawer: myDrawer(_changePage, bodyPage),
-      floatingActionButton: myFloatingButton(),
+      floatingActionButton: myFloatingButton(_emptySetState),
     )
     );
   }
