@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 import '../db/database.dart';
 
 class Index extends StatelessWidget {
+  final items = [];
+  Future<void> collect() async {
+    var list = await DatabaseProvider.db.getItems();
+    list.forEach((item) {
+      if (item.name != null){
+        items.add(item);
+      }
+    });
+  }
 
   Widget build(BuildContext context) {
+    collect();
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
@@ -18,7 +28,7 @@ class Index extends StatelessWidget {
           Expanded(child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-            ...(items.map((item) {
+            ...((items).map((item) {
               return Card(
                 child: ExpansionTile(
                   title: Row(

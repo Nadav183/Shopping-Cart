@@ -19,6 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _formKey = GlobalKey<FormState>();
   var curPage = 'index';
   var bodyPage = {
     'index': [Index(),'Main',Icon(Icons.format_list_bulleted)],
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: Text('My App',style: text['header'])),
         body: (bodyPage[curPage][0]),
         drawer: myDrawer(_changePage, bodyPage),
-      floatingActionButton: myFloatingButton(pushAddForm,null),
+      floatingActionButton: myFloatingButton(),
     )
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../pages/addForm.dart';
 
-Widget myFloatingButton(Function addFunc,Function removeFunc) {
+Widget myFloatingButton() {
   return Builder(builder: (context) => SpeedDial(
     child: Icon(Icons.add),
     children: <SpeedDialChild>[
@@ -13,7 +13,7 @@ Widget myFloatingButton(Function addFunc,Function removeFunc) {
         onTap: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddForm())
+              MaterialPageRoute(builder: (context) => TestForm())
           );
           print('pushAddForm was called');
         },

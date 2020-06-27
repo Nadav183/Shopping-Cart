@@ -45,9 +45,37 @@ class DatabaseProvider {
     );
   }
   Future<List<Item>> getItems() async{
+    final db = await database;
 
+    var items = await db.query(
+      TABLE_GROCERIES,
+      columns: [
+        COLUMN_ID,
+        COLUMN_NAME,
+        COLUMN_PPU,
+        COLUMN_BASE,
+        COLUMN_STOCK,
+      ]
+    );
+    List<Item> itemList = List<Item>();
+    items.forEach((curItem){
+      Item item = Item.fromMap(curItem);
+      itemList.add(item);
+    });
+    return itemList;
   }
 
+  Future<Item> insert (Item item) async {
+    final db = await database;
+    item.id = await db.insert(TABLE_GROCERIES, item.toMap());
+    print('Inserting new item:\n'
+          'name: ${item.name}\n'
+          'ppu: ${item.pricePerUnit}\n'
+          'stock: ${item.amountInStock}\n'
+          'base: ${item.amountBase}\n'
+          'id: ${item.id}\n');
+    return item;
+  }
 }
 
 
