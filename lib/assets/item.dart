@@ -1,3 +1,5 @@
+import '../db/database.dart';
+
 class Item {
   int id;
   String name;
@@ -7,12 +9,22 @@ class Item {
 
   Item({this.id, this.name, this.pricePerUnit, this.amountInStock = 0, this.amountBase});
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'ppu': pricePerUnit,
-      'amountInStock': amountInStock,
-      'amountBase': amountBase,
+    var map = <String, dynamic>{
+      DatabaseProvider.COLUMN_NAME: name,
+      DatabaseProvider.COLUMN_PPU: pricePerUnit,
+      DatabaseProvider.COLUMN_STOCK: amountInStock,
+      DatabaseProvider.COLUMN_BASE: amountBase,
     };
+    if (id !=null) {
+      map[DatabaseProvider.COLUMN_ID] = id;
+    }
+    return map;
+  }
+  Item.fromMap(Map<String, dynamic> map){
+    id = map[DatabaseProvider.COLUMN_ID];
+    name = map[DatabaseProvider.COLUMN_NAME];
+    pricePerUnit = map[DatabaseProvider.COLUMN_PPU];
+    amountInStock = map[DatabaseProvider.COLUMN_STOCK];
+    amountBase = map[DatabaseProvider.COLUMN_BASE];
   }
 }

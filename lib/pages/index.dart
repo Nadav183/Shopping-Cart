@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../database.dart';
+import '../db/database.dart';
 
 class Index extends StatelessWidget {
 
