@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../pages/addForm.dart';
+import '../db/database.dart';
 
 Widget myFloatingButton() {
   return Builder(builder: (context) => SpeedDial(
@@ -22,6 +23,9 @@ Widget myFloatingButton() {
         child: Icon(Icons.remove, color: Colors.white),
         label: 'Remove item',
         backgroundColor: Colors.red,
+        onTap: () {
+          DatabaseProvider.db.deleteDatabase();
+        },
       ),
     ],
   ));

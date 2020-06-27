@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import '../db/database.dart';
 
-class Index extends StatelessWidget {
-  final items = [];
-  Future<void> collect() async {
-    var list = await DatabaseProvider.db.getItems();
-    list.forEach((item) {
-      if (item.name != null){
-        items.add(item);
-      }
+class Index extends StatefulWidget {
+  @override
+  _IndexState createState() => _IndexState();
+}
+
+class _IndexState extends State<Index>{
+  var items = [];
+  @override
+  void initState() {
+    super.initState();
+    DatabaseProvider.db.getItems().then((itemList) {
+      setState(() {
+        items = itemList;
+      });
     });
   }
 
+
+  @override
   Widget build(BuildContext context) {
-    collect();
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
@@ -28,25 +35,30 @@ class Index extends StatelessWidget {
           Expanded(child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-            ...((items).map((item) {
-              return Card(
-                child: ExpansionTile(
-                  title: Row(
-                    children: <Widget>[
-                      Expanded(child:Text('${item.name}', textAlign: TextAlign.left)),
-                      Expanded(child:Text('${item.pricePerUnit}',textAlign: TextAlign.center)),
-                      Expanded(child:Text('${item.amountInStock}',textAlign: TextAlign.right)),
-                      ],
-                    ),
-                  trailing: Icon(Icons.more_vert),
-                  children: <Widget>[
-                    Text('Base Amount: ${item.amountBase}'),
-                    Text('Need to buy ${item.amountBase-item.amountInStock} for ${(item.amountBase-item.amountInStock)*item.pricePerUnit} NIS'),
-                  ],
-                )
-              );
-            }))
-          ],))
+              ...((items).map((item) {
+                if (item.name != null) {
+                  return Card(
+                      child: ExpansionTile(
+                        title: Row(
+                          children: <Widget>[
+                            Expanded(child:Text('${item.name}', textAlign: TextAlign.left)),
+                            Expanded(child:Text('${item.pricePerUnit}',textAlign: TextAlign.center)),
+                            Expanded(child:Text('${item.amountInStock}',textAlign: TextAlign.right)),
+                          ],
+                        ),
+                        trailing: Icon(Icons.more_vert),
+                        children: <Widget>[
+                          Text('Base Amount: ${item.amountBase}'),
+                          Text('Need to buy ${item.amountBase-item.amountInStock} for ${(item.amountBase-item.amountInStock)*item.pricePerUnit} NIS'),
+                        ],
+                      )
+                  );
+                }
+                else{
+                  return Card(child: Text('Invalid'));
+                }
+              }))
+            ],))
         ],
       ),
     );

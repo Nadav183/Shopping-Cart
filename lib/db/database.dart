@@ -76,15 +76,8 @@ class DatabaseProvider {
           'id: ${item.id}\n');
     return item;
   }
+  Future<void> deleteDatabase() async {
+    var dbPath = await getDatabasesPath();
+    databaseFactory.deleteDatabase(join(dbPath,'groceriesDB.db'));
+  }
 }
-
-
-final onion = Item(
-  id: 0,
-  name: 'Onion',
-  pricePerUnit: 2.3,
-  amountInStock: 5,
-  amountBase: 7,
-);
-
-var items = [onion,];
