@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/bloc/item_bloc.dart';
+import 'package:organizer/events/item_event.dart';
 import '../db/database.dart';
 import '../assets/item.dart';
 
@@ -109,7 +112,11 @@ class _TestFormState extends State<TestForm> {
                 amountInStock: stock,
                 amountBase: base,
               );
-              DatabaseProvider.db.insert(item);
+              DatabaseProvider.db.insert(item).then((item) {
+                BlocProvider.of<ItemBloc>(context).add(
+                    ItemEvent.insert(item)
+                );
+              });
               Navigator.pop(context);
             },
           ),
@@ -120,3 +127,5 @@ class _TestFormState extends State<TestForm> {
     );
   }
 }
+
+

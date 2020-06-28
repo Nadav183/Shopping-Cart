@@ -1,0 +1,5 @@
+1. Implement BLoC - Done
+2. Implement form validation - In Progress
+
+3. Implement shopping list - Enqueued
+4. Implement ReStock items (mass edit, form?) - Enqueued
