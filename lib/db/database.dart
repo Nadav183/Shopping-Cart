@@ -25,6 +25,7 @@ class DatabaseProvider {
     _database = await createDatabase();
     return _database;
   }
+
   Future<Database> createDatabase() async {
     String dbPath = await getDatabasesPath();
     return await openDatabase(
@@ -44,6 +45,7 @@ class DatabaseProvider {
       },
     );
   }
+
   Future<List<Item>> getItems() async{
     final db = await database;
 
@@ -75,6 +77,16 @@ class DatabaseProvider {
           'base: ${item.amountBase}\n'
           'id: ${item.id}\n');
     return item;
+  }
+
+  Future<int> update(Item item) async {
+    final db = await database;
+    return await db.update(
+      TABLE_GROCERIES,
+      item.toMap(),
+      where: "id = ?",
+      whereArgs: [item.id],
+    );
   }
   Future<void> deleteDatabase() async {
     var dbPath = await getDatabasesPath();

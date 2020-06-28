@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/assets/expansionTiles.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
@@ -43,19 +44,7 @@ class _IndexState extends State<Index>{
             itemCount: itemList.length,
             itemBuilder: (context, index) {
               return Card(
-                child: ExpansionTile(
-                  title: Row(
-                    children: <Widget>[
-                      Expanded(child:Text(itemList[index].name, textAlign: TextAlign.left)),
-                      Expanded(child:Text('${itemList[index].pricePerUnit}',textAlign: TextAlign.center)),
-                      Expanded(child:Text('${itemList[index].amountInStock}',textAlign: TextAlign.right)),
-                    ],
-                  ),
-                  children: <Widget>[
-                    Text('Base Amount: ${itemList[index].amountBase}'),
-                    Text('Need to buy ${itemList[index].amountBase-itemList[index].amountInStock} for ${(itemList[index].amountBase-itemList[index].amountInStock)*itemList[index].pricePerUnit} NIS'),
-                  ],
-                ),
+                child: IndexExpansionTile(itemList[index]),
               );
             },
           );
@@ -69,50 +58,4 @@ class _IndexState extends State<Index>{
       ),
     );
   }
-
-  /*
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(child:Text('Item Name', textAlign: TextAlign.left)),
-              Expanded(child:Text('Price Per Unit',textAlign: TextAlign.center)),
-              Expanded(child:Text('Stock',textAlign: TextAlign.right)),
-            ],
-          ),
-          Expanded(child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ...((items).map((item) {
-                if (item.name != null) {
-                  return Card(
-                      child: ExpansionTile(
-                        title: Row(
-                          children: <Widget>[
-                            Expanded(child:Text('${item.name}', textAlign: TextAlign.left)),
-                            Expanded(child:Text('${item.pricePerUnit}',textAlign: TextAlign.center)),
-                            Expanded(child:Text('${item.amountInStock}',textAlign: TextAlign.right)),
-                          ],
-                        ),
-                        trailing: Icon(Icons.more_vert),
-                        children: <Widget>[
-                          Text('Base Amount: ${item.amountBase}'),
-                          Text('Need to buy ${item.amountBase-item.amountInStock} for ${(item.amountBase-item.amountInStock)*item.pricePerUnit} NIS'),
-                        ],
-                      )
-                  );
-                }
-                else{
-                  return Card(child: Text('Invalid'));
-                }
-              }))
-            ],))
-        ],
-      ),
-    );
-  } */
 }
