@@ -97,6 +97,7 @@ class ShopExpansionTile extends StatelessWidget {
       ),
       onTap: () {
         markShoppingList(context).then((newStock) {
+          if (newStock == null){newStock = 0;}
           item.amountInStock += newStock;
           DatabaseProvider.db.update(item);
           BlocProvider.of<ItemBloc>(context).add(

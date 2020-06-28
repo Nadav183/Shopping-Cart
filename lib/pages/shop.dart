@@ -31,7 +31,66 @@ class _ShopState extends State<Shop>{
           return true;
         },
         listenWhen: (List<Item> previous, List<Item> current) {
-          if((current != previous) && (previous.length != 0)){
+          if((current.length != previous.length) && (previous.length != 0)){
+            return true;
+          }
+          return true;
+        },
+        builder: (context, itemList){
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            padding: EdgeInsets.all(16),
+            itemCount: itemList.length,
+            itemBuilder: (context, index) {
+              print('${itemList[index].name}: ${itemList[index].amountBase-itemList[index].amountInStock} res: ${itemList[index].amountBase > itemList[index].amountInStock}');
+              if ((itemList[index].amountBase-itemList[index].amountInStock)>0){
+                return Card(
+                  child: ShopExpansionTile(itemList[index]),
+                );
+              }
+              else {return SizedBox();}
+            },
+          );
+        },
+        listener: (BuildContext context, itemList) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Added'),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Shop2 extends StatefulWidget {
+  @override
+  _Shop2State createState() => _Shop2State();
+}
+
+class _Shop2State extends State<Shop2>{
+  @override
+  void initState() {
+    super.initState();
+    DatabaseProvider.db.getItems().then(
+          (itemList) {
+        BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: BlocConsumer<ItemBloc, List<Item>>(
+        buildWhen: (List<Item> previous, List<Item> current) {
+          return true;
+        },
+        listenWhen: (List<Item> previous, List<Item> current) {
+          if((current.length != previous.length) && (previous.length != 0)){
             return true;
           }
           return false;
@@ -43,7 +102,7 @@ class _ShopState extends State<Shop>{
             padding: EdgeInsets.all(16),
             itemCount: itemList.length,
             itemBuilder: (context, index) {
-              if (itemList[index].amountInStock<itemList[index].amountBase){
+              if (itemList[index].amountBase>=itemList[index].amountInStock){
                 return Card(
                   child: ShopExpansionTile(itemList[index]),
                 );
@@ -51,8 +110,12 @@ class _ShopState extends State<Shop>{
               return null;
             },
           );
-        },
-        listener: (BuildContext context, itemList) {
+        }, listener: (BuildContext context, itemList) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Added'),
+          ),
+        );
       },
       ),
     );
