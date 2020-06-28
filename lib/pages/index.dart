@@ -44,7 +44,17 @@ class _IndexState extends State<Index>{
             itemBuilder: (context, index) {
               return Card(
                 child: ExpansionTile(
-                  title: Text(itemList[index].name),
+                  title: Row(
+                    children: <Widget>[
+                      Expanded(child:Text(itemList[index].name, textAlign: TextAlign.left)),
+                      Expanded(child:Text('${itemList[index].pricePerUnit}',textAlign: TextAlign.center)),
+                      Expanded(child:Text('${itemList[index].amountInStock}',textAlign: TextAlign.right)),
+                    ],
+                  ),
+                  children: <Widget>[
+                    Text('Base Amount: ${itemList[index].amountBase}'),
+                    Text('Need to buy ${itemList[index].amountBase-itemList[index].amountInStock} for ${(itemList[index].amountBase-itemList[index].amountInStock)*itemList[index].pricePerUnit} NIS'),
+                  ],
                 ),
               );
             },
