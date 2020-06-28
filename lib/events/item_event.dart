@@ -2,7 +2,7 @@
 
 import 'package:organizer/assets/item.dart';
 
-enum EventType{insert, delete, setItems}
+enum EventType{insert, delete, setItems, update}
 
 class ItemEvent {
   List<Item> itemList;
@@ -16,10 +16,14 @@ class ItemEvent {
   }
   ItemEvent.delete(Item item){
     this.eventType = EventType.delete;
-    this.itemIndex = item.id;
+    this.item = item;
   }
   ItemEvent.setItems(List<Item> itemList){
     this.eventType = EventType.setItems;
     this.itemList = itemList;
+  }
+  ItemEvent.update(Item item){
+    this.eventType = EventType.update;
+    this.item = item;
   }
 }

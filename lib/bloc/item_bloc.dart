@@ -6,7 +6,6 @@ import 'package:organizer/events/item_event.dart';
 
 class ItemBloc extends Bloc<ItemEvent, List<Item>>{
   @override
-  // TODO: implement initialState
   List<Item> get initialState => List<Item>();
 
   @override
@@ -21,12 +20,17 @@ class ItemBloc extends Bloc<ItemEvent, List<Item>>{
         break;
       case EventType.delete:
         List<Item> newState = List.from(state);
-        newState.removeWhere((listItem) => listItem.id == event.item.id);
+        newState.remove(event.item);
         yield newState;
         break;
       case EventType.setItems:
         List<Item> newState = List.from(state);
         newState = event.itemList;
+        yield newState;
+        break;
+      case EventType.update:
+        List<Item> newState = List.from(state);
+        newState[newState.indexWhere((item) => item.id == event.item.id)] = event.item;
         yield newState;
         break;
       default:
