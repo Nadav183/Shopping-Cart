@@ -1,73 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/events/item_event.dart';
+
 import '../db/database.dart';
 import '../assets/item.dart';
+import '../style/designStyle.dart';
 
-class AddForm extends StatelessWidget {
-
-  Widget build(BuildContext context) {
-    String name;
-    double ppu;
-    int base;
-    int stock;
-    return Card(child: Container(
-        padding: EdgeInsets.all(15),
-        child: Form(key: Key('thisForm'),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(hintText: 'Item name'),
-            onSaved: ((value) {name = value;}),
-          ),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'Price per unit'),
-            keyboardType: TextInputType.number,
-            onSaved: ((value) {ppu = double.parse(value);}),
-          ),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'How many do you have right now?'),
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
-            onSaved: ((value) {stock = int.parse(value);}),
-          ),
-          TextFormField(
-            decoration: InputDecoration(hintText: 'How many do you usually need?'),
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
-            onSaved: ((value) {base = int.parse(value);}),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                var item = Item(
-                  name: name,
-                  pricePerUnit: ppu,
-                  amountBase: base,
-                  amountInStock: stock,
-                );
-                DatabaseProvider.db.insert(item);
-                Navigator.pop(context);
-              },
-              child: Text('Submit'),
-            ),
-          ),
-        ],
-      ),
-    )));
-  }
-}
-
-class TestForm extends StatefulWidget {
+class AddForm extends StatefulWidget {
   @override
-  _TestFormState createState() => _TestFormState();
+  _AddFormState createState() => _AddFormState();
 }
 
-class _TestFormState extends State<TestForm> {
+class _AddFormState extends State<AddForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
@@ -81,45 +28,103 @@ class _TestFormState extends State<TestForm> {
         child: Form(
       key: _formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(hintText: 'Item name'),
+            decoration: InputDecoration(labelText: 'Item name'),
+            validator: (value) {
+              if (value.isEmpty){
+                return 'Name is required';
+              }
+              return null;
+            },
             onSaved: ((value) {name = value;}),
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'Price per unit'),
+            decoration: InputDecoration(labelText: 'Price per unit'),
             keyboardType: TextInputType.number,
+            validator: (value){
+              if (value.isEmpty){
+                return'Price is required';
+              }
+              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)){
+                return'Please enter a positive number';
+              }
+              return null;
+            },
             onSaved: ((value) {ppu = double.parse(value);}),
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'How many do you have right now?'),
+            decoration: InputDecoration(labelText: 'How many do you have right now?', hintText: '0'),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+            validator: (value){
+              if (value.isEmpty){
+                value = '0';
+                return null;
+              }
+              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)){
+                return'Please enter a positive whole number';
+              }
+              return null;
+            },
             onSaved: ((value) {stock = int.parse(value);}),
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'How many do you usually need?'),
+            decoration: InputDecoration(labelText: 'How many do you usually need?'),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+            validator: (value){
+              if (value.isEmpty){
+                return 'Base amount is required';
+              }
+              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)){
+                return'Please enter a positive whole number';
+              }
+              if (int.parse(value)<=0){
+                return'Base amount cannot be zero';
+              }
+              return null;
+            },
             onSaved: ((value) {base = int.parse(value);}),
           ),
-          RaisedButton(
-            onPressed: () {
-              _formKey.currentState.save();
-              var item = Item(
-                name: name,
-                pricePerUnit: ppu,
-                amountInStock: stock,
-                amountBase: base,
-              );
-              DatabaseProvider.db.insert(item).then((item) {
-                BlocProvider.of<ItemBloc>(context).add(
-                    ItemEvent.insert(item)
-                );
-              });
-              Navigator.pop(context);
-            },
+          SizedBox(height: 50,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text('Save', style: text['buttonText'],),
+                color: Colors.green,
+                onPressed: () {
+                  if (!_formKey.currentState.validate()){
+                    return;
+                  }
+                  _formKey.currentState.save();
+                  var item = Item(
+                    name: name,
+                    pricePerUnit: ppu,
+                    amountInStock: stock,
+                    amountBase: base,
+                  );
+                  DatabaseProvider.db.insert(item).then((item) {
+                    BlocProvider.of<ItemBloc>(context).add(
+                        ItemEvent.insert(item)
+                    );
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(width: 100,),
+              RaisedButton(
+                child: Text('Cancel', style: text['buttonText'],),
+                color: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
+
 
         ],
       ),

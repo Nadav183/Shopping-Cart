@@ -15,7 +15,7 @@ Widget myFloatingButton(Function func) {
           func();
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TestForm())
+              MaterialPageRoute(builder: (context) => AddForm())
           );
           print('pushAddForm was called');
         },
@@ -26,6 +26,7 @@ Widget myFloatingButton(Function func) {
         backgroundColor: Colors.red,
         onTap: () {
           DatabaseProvider.db.deleteDatabase();
+          DatabaseProvider.db.getItems();
         },
       ),
     ],
