@@ -49,7 +49,7 @@ class _ShopState extends State<Shop>{
                   child: ShopExpansionTile(itemList[index]),
                 );
               }
-              else {return SizedBox();}
+              else {return SizedBox.shrink();}
             },
           );
         },
