@@ -48,10 +48,12 @@ class _IndexState extends State<Index>{
               );
             },
           );
-        }, listener: (BuildContext context, itemList) {
+        },
+        listener: (BuildContext context, itemList) {
+
           Scaffold.of(context).showSnackBar(
               SnackBar(
-                content: Text('Added'),
+                content: Text('Updated'),
               ),
           );
       },

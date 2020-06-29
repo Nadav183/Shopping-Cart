@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 var text = {
   'header': headerTextStyle,
   'drawerOption': drawerOptionStyle,
   'buttonText': buttonTextStyle,
 };
+
+var ils = NumberFormat.simpleCurrency(name:'ILS');
 
 var headerTextStyle = TextStyle(
   color: Colors.white,

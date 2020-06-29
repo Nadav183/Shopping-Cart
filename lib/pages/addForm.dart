@@ -47,21 +47,24 @@ class _AddFormState extends State<AddForm> {
               if (value.isEmpty){
                 return'Price is required';
               }
-              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)){
-                return'Please enter a positive number';
+              if (double.tryParse(value) == null){
+                return'Please enter a valid number';
+              }
+              if (double.tryParse(value)<= 0){
+                return'Wishful thinking is nice but price must be larger than zero';
               }
               return null;
             },
             onSaved: ((value) {ppu = double.parse(value);}),
           ),
           TextFormField(
+            initialValue: '0',
             decoration: InputDecoration(labelText: 'How many do you have right now?', hintText: '0'),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
             validator: (value){
               if (value.isEmpty){
-                value = '0';
-                return null;
+                return'This field cannot be empty, for zero insert 0';
               }
               if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value)){
                 return'Please enter a positive whole number';

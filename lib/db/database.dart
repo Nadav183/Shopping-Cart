@@ -79,6 +79,15 @@ class DatabaseProvider {
     return item;
   }
 
+  Future<int> remove (int id) async {
+    final db = await database;
+    return await db.delete(
+      TABLE_GROCERIES,
+      where: "id = ?",
+      whereArgs: [id]
+    );
+  }
+
   Future<int> update(Item item) async {
     final db = await database;
     return await db.update(

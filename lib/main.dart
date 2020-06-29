@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(home: Scaffold(
         appBar: AppBar(title: Text(bodyPage[curPage][1],style: text['header'])),
         body: (bodyPage[curPage][0]),
-        endDrawer: myDrawer(_changePage, bodyPage),
+        drawer: myDrawer(_changePage, bodyPage),
         floatingActionButton: MyFloatingButton(),
       )
       ),
