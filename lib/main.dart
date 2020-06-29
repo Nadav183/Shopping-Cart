@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc_delegate.dart';
 
+//import 'assets/myAppBar.dart';
 import 'bloc/item_bloc.dart';
 import 'pages/index.dart';
 import 'pages/shop.dart';
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return BlocProvider<ItemBloc>(
       create: (context) => ItemBloc(),
       child: MaterialApp(home: Scaffold(
-        appBar: AppBar(title: Text(bodyPage[curPage][1],style: text['header'])),
+        appBar: AppBar(title: Text(bodyPage[curPage][1], style: text['header'])),
         body: (bodyPage[curPage][0]),
         drawer: myDrawer(_changePage, bodyPage),
         floatingActionButton: MyFloatingButton(),
