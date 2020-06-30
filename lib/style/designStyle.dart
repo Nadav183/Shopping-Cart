@@ -5,6 +5,7 @@ var text = {
   'header': headerTextStyle,
   'drawerOption': drawerOptionStyle,
   'buttonText': buttonTextStyle,
+  'cart': cartPriceStyle,
 };
 
 var currency = {};
@@ -26,4 +27,11 @@ var buttonTextStyle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.white,
+);
+
+var cartPriceStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  decoration: TextDecoration.underline,
 );

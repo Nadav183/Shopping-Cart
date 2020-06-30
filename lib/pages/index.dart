@@ -25,7 +25,7 @@ class _IndexState extends State<Index>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(vertical: 16),
       child: BlocConsumer<ItemBloc, List<Item>>(
         buildWhen: (List<Item> previous, List<Item> current) {
           return true;
@@ -40,7 +40,7 @@ class _IndexState extends State<Index>{
           return ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
             itemCount: itemList.length,
             itemBuilder: (context, index) {
               return Card(
