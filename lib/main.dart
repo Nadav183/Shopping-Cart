@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc_delegate.dart';
 
-//import 'assets/myAppBar.dart';
 import 'assets/myAppBar.dart';
 import 'bloc/item_bloc.dart';
 import 'pages/index.dart';

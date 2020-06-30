@@ -69,7 +69,7 @@ class IndexExpansionTile extends StatelessWidget {
     var totalPrice = required*item.pricePerUnit;
     return ExpansionTile(
       leading: IconButton(
-        icon: Icon(Icons.edit),
+        icon: Icon(Icons.edit, color: Colors.blue,),
         onPressed: () {
           markShoppingList(context);
         },
