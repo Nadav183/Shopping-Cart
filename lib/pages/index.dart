@@ -12,6 +12,17 @@ class Index extends StatefulWidget {
 }
 
 class _IndexState extends State<Index>{
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  Future<Null> _refresh() async {
+    DatabaseProvider.db.getItems().then(
+          (itemList) {
+        BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -24,39 +35,43 @@ class _IndexState extends State<Index>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: BlocConsumer<ItemBloc, List<Item>>(
-        buildWhen: (List<Item> previous, List<Item> current) {
-          return true;
-        },
-        listenWhen: (List<Item> previous, List<Item> current) {
-          if((current.length != previous.length) && (previous.length != 0)){
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      key: _refreshIndicatorKey,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: BlocConsumer<ItemBloc, List<Item>>(
+          buildWhen: (List<Item> previous, List<Item> current) {
             return true;
-          }
-          return false;
-        },
-        builder: (context, itemList){
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
-            itemCount: itemList.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: IndexExpansionTile(itemList[index]),
-              );
-            },
-          );
-        },
-        listener: (BuildContext context, itemList) {
+          },
+          listenWhen: (List<Item> previous, List<Item> current) {
+            if((current.length != previous.length) && (previous.length != 0)){
+              return true;
+            }
+            return false;
+          },
+          builder: (context, itemList){
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
+              itemCount: itemList.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: IndexExpansionTile(itemList[index]),
+                );
+              },
+            );
+          },
+          listener: (BuildContext context, itemList) {
 
-          Scaffold.of(context).showSnackBar(
+            Scaffold.of(context).showSnackBar(
               SnackBar(
                 content: Text('Updated'),
               ),
-          );
-      },
+            );
+          },
+        ),
       ),
     );
   }
