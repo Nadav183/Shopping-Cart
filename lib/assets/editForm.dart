@@ -20,11 +20,6 @@ class _EditFormState extends State<EditForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
-    String name;
-    double ppu;
-    int base;
-    int stock;
-    //final halfMediaWidth = MediaQuery.of(context).size.width / 2.0;
     return Form(
           key: _formKey,
           child: Column(

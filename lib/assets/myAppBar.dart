@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:organizer/pages/addForm.dart';
 import 'package:organizer/pages/settings.dart';
 import 'package:organizer/style/designStyle.dart';
 

@@ -7,7 +7,6 @@ import 'assets/myAppBar.dart';
 import 'bloc/item_bloc.dart';
 import 'pages/index.dart';
 import 'pages/shop.dart';
-import 'style/designStyle.dart';
 import 'assets/drawer.dart';
 import 'pages/restock.dart';
 import 'assets/float.dart';
