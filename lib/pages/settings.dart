@@ -1,6 +1,5 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:organizer/style/designStyle.dart';
 
@@ -14,7 +13,6 @@ class _SettingsState extends State<Settings>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Drawer(
       child: ListView(
         children: <Widget>[

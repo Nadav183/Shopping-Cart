@@ -7,7 +7,9 @@ var text = {
   'buttonText': buttonTextStyle,
 };
 
-var ils = NumberFormat.simpleCurrency(name:'ILS');
+var currency = {};
+
+Function ils = NumberFormat.simpleCurrency(name:'ILS').format;
 
 var headerTextStyle = TextStyle(
   color: Colors.white,

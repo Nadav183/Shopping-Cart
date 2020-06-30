@@ -26,6 +26,7 @@ class DatabaseProvider {
     return _database;
   }
 
+
   Future<Database> createDatabase() async {
     String dbPath = await getDatabasesPath();
     return await openDatabase(
@@ -42,6 +43,9 @@ class DatabaseProvider {
           "$COLUMN_STOCK INTEGER"
           ")",
         );
+      },
+      onUpgrade: (Database database, int oldVersion, int newVersion) async {
+        
       },
     );
   }

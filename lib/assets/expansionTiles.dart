@@ -77,13 +77,12 @@ class IndexExpansionTile extends StatelessWidget {
       title: Row(
         children: <Widget>[
           Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-          Expanded(child:Text('${ils.format(item.pricePerUnit)}',textAlign: TextAlign.center)),
-          Expanded(child:Text('${item.amountInStock}',textAlign: TextAlign.right)),
+          Text('${item.amountInStock}',textAlign: TextAlign.right),
         ],
       ),
       children: <Widget>[
         Text('Base Amount: ${item.amountBase}'),
-        Text('Need to buy $required for ${ils.format(totalPrice)}'),
+        Text('Need to buy $required for ${ils(totalPrice)}'),
         FlatButton(
           child: Row(children: <Widget>[Icon(Icons.clear,color: Colors.red,),Text('delete this item')]),
           onPressed: () {deleteConfirmationDialog(context);},
@@ -146,7 +145,7 @@ class ShopExpansionTile extends StatelessWidget {
     var required = item.amountBase-item.amountInStock;
     if (required<0) {required = 0;}
     var totalPrice = required*item.pricePerUnit;
-    return ListTile(
+    return ExpansionTile(
       leading: IconButton(
         icon: Icon(Icons.add, color: Colors.green,),
         onPressed: () {
@@ -163,12 +162,12 @@ class ShopExpansionTile extends StatelessWidget {
       title: Row(
         children: <Widget>[
           Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-          Expanded(child:Text('Need: $required',textAlign: TextAlign.left)),
-          Expanded(child:Text(ils.format(totalPrice),textAlign: TextAlign.center)),
+          Expanded(child:Text('Need: $required',textAlign: TextAlign.right)),
         ],
       ),
-      onTap: () {},
-      onLongPress: () {},
+      children: <Widget>[
+        Text('For the price of ${ils(totalPrice)}')
+      ],
     );
   }
 }
