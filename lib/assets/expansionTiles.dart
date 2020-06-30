@@ -8,10 +8,44 @@ import 'package:organizer/db/database.dart';
 import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/designStyle.dart';
 
+import 'editForm.dart';
+
 class IndexExpansionTile extends StatelessWidget {
   final Item item;
   
   IndexExpansionTile(this.item);
+
+  deleteConfirmationDialog(BuildContext context){
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text('Delete ${item.name}'),
+        content: Text(
+            'Are you sure you want to delete the item \'${item.name}\' from your inventory?',
+          maxLines: 5,
+          softWrap: true,
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Yes'),
+            onPressed: () {
+              DatabaseProvider.db.remove(item.id);
+              BlocProvider.of<ItemBloc>(context).add(
+                ItemEvent.delete(item)
+              );
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    });
+  }
 
   markShoppingList(BuildContext context){
     TextEditingController customController = TextEditingController();
@@ -19,22 +53,10 @@ class IndexExpansionTile extends StatelessWidget {
     return showDialog(context: context, builder: (context){
       customController.clear();
       return AlertDialog(
-        title: Text('Remove ${item.name}'),
-        content: Text('Are you sure?'),
-        actions: <Widget>[
-          MaterialButton(
-            child: Text('Confirm'),
-            onPressed: () {
-              Navigator.of(context).pop(item.id);
-            },
-          ),
-          MaterialButton(
-            child: Text('Cancel'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+        title: Text('Edit ${item.name}'),
+        content: Wrap(
+          children: <Widget>[EditForm(item)],
+        ),
       );
     });
   }
@@ -47,16 +69,9 @@ class IndexExpansionTile extends StatelessWidget {
     var totalPrice = required*item.pricePerUnit;
     return ExpansionTile(
       leading: IconButton(
-        icon: Icon(Icons.clear),
+        icon: Icon(Icons.edit),
         onPressed: () {
-          markShoppingList(context).then((id) {
-            if (id != null) {
-              DatabaseProvider.db.remove(id);
-              BlocProvider.of<ItemBloc>(context).add(
-                  ItemEvent.delete(item)
-              );
-            }
-          });
+          markShoppingList(context);
         },
       ),
       title: Row(
@@ -69,6 +84,10 @@ class IndexExpansionTile extends StatelessWidget {
       children: <Widget>[
         Text('Base Amount: ${item.amountBase}'),
         Text('Need to buy $required for ${ils.format(totalPrice)}'),
+        FlatButton(
+          child: Row(children: <Widget>[Icon(Icons.clear,color: Colors.red,),Text('delete this item')]),
+          onPressed: () {deleteConfirmationDialog(context);},
+        )
       ],
     );
   }

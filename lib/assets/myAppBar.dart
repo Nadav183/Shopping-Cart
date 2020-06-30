@@ -1,27 +1,36 @@
 
 import 'package:flutter/material.dart';
+import 'package:organizer/pages/addForm.dart';
+import 'package:organizer/pages/settings.dart';
 import 'package:organizer/style/designStyle.dart';
 
-class MyAppBar extends AppBar {
+class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String titleText;
-
   MyAppBar(this.titleText);
 
-  Widget build(BuildContext context){
+  @override
+  _MyAppBarState createState() => _MyAppBarState();
 
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _MyAppBarState extends State<MyAppBar>{
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
-      title: Text(titleText, style: text['header'],),
+      title: Text(widget.titleText, style: text['header'],),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.settings),
           onPressed: () {
-            Navigator.push(
-              context,
-                MaterialPageRoute(builder: (context) => AddForm())
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => Settings())
             );
           },
         ),
       ],
     );
   }
+
 }
