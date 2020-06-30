@@ -8,6 +8,9 @@ class Item {
   int amountBase;
 
   Item({this.id, this.name, this.pricePerUnit, this.amountInStock = 0, this.amountBase});
+
+  ///maps the keys of the DB columns to the values of an Item
+  ///If the id is null it will be automatically set on DB side as PK
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       DatabaseProvider.COLUMN_NAME: name,
@@ -20,6 +23,8 @@ class Item {
     }
     return map;
   }
+
+  ///converts a map from the DB to an Item
   Item.fromMap(Map<String, dynamic> map){
     id = map[DatabaseProvider.COLUMN_ID];
     name = map[DatabaseProvider.COLUMN_NAME];

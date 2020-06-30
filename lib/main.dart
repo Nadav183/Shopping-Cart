@@ -37,12 +37,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocProvider<ItemBloc>(
       create: (context) => ItemBloc(),
-      child: MaterialApp(home: Scaffold(
-        appBar: MyAppBar(bodyPage[curPage][1]),
-        body: (bodyPage[curPage][0]),
-        drawer: myDrawer(_changePage, bodyPage),
-        floatingActionButton: MyFloatingButton(),
-      )
+      child: MaterialApp(
+        home: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Scaffold(
+            appBar: MyAppBar(bodyPage[curPage][1]),
+            body: (bodyPage[curPage][0]),
+            drawer: myDrawer(_changePage, bodyPage),
+            floatingActionButton: MyFloatingButton(),
+          ),
+        ),
       ),
     );
   }
