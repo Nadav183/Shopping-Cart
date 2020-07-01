@@ -8,7 +8,7 @@ import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
 import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/designStyle.dart';
-
+import 'package:organizer/style/lang.dart';
 import 'editForm.dart';
 
 class IndexExpansionTile extends StatelessWidget {
@@ -16,45 +16,13 @@ class IndexExpansionTile extends StatelessWidget {
   
   IndexExpansionTile(this.item);
 
-  deleteConfirmationDialog(BuildContext context){
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: Text('Delete ${item.name}'),
-        content: Text(
-            'Are you sure you want to delete the item \'${item.name}\' from your inventory?',
-          maxLines: 5,
-          softWrap: true,
-          textAlign: TextAlign.center,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: () {
-              DatabaseProvider.db.remove(item.id);
-              BlocProvider.of<ItemBloc>(context).add(
-                ItemEvent.delete(item)
-              );
-              Navigator.pop(context);
-            },
-          ),
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      );
-    });
-  }
-
   markShoppingList(BuildContext context){
     TextEditingController customController = TextEditingController();
 
     return showDialog(context: context, builder: (context){
       customController.clear();
       return AlertDialog(
-        title: Text('Edit ${item.name}'),
+        title: Text('${genLang['edit'][lang]} ${item.name}'),
         content: Wrap(
           children: <Widget>[EditForm(item)],
         ),
@@ -64,31 +32,95 @@ class IndexExpansionTile extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-
     var required = item.amountBase-item.amountInStock;
     if (required<0) {required = 0;}
     var totalPrice = required*item.pricePerUnit;
-    return ExpansionTile(
-      leading: IconButton(
-        icon: Icon(Icons.edit, color: Colors.blue,),
-        onPressed: () {
-          markShoppingList(context);
-        },
-      ),
-      title: Row(
-        children: <Widget>[
-          Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-          Text('${item.amountInStock}',textAlign: TextAlign.right),
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Slidable(
+        key: Key('${item.name}'),
+        actionPane: SlidableScrollActionPane(),
+        actionExtentRatio: 0.10,
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            icon: Icons.edit,
+            color: Colors.blue,
+            onTap: (){
+              markShoppingList(context);
+            },
+          ),
+          IconSlideAction(
+            icon: Icons.add,
+            color: Colors.green,
+            onTap: (){
+              item.amountInStock += 1;
+              DatabaseProvider.db.update(item);
+              BlocProvider.of<ItemBloc>(context).add(
+                  ItemEvent.update(item)
+              );
+            },
+          ),
+          IconSlideAction(
+            icon: Icons.remove,
+            color: Colors.red,
+            onTap: (){
+              if (item.amountInStock>0){
+                item.amountInStock -= 1;
+                DatabaseProvider.db.update(item);
+                BlocProvider.of<ItemBloc>(context).add(
+                    ItemEvent.update(item)
+                );
+              }
+            },
+          ),
         ],
+        actions: <Widget>[
+          IconSlideAction(
+            icon: Icons.edit,
+            color: Colors.blue,
+            onTap: (){
+              markShoppingList(context);
+            },
+          ),
+          IconSlideAction(
+            icon: Icons.add,
+            color: Colors.green,
+            onTap: (){
+              item.amountInStock += 1;
+              DatabaseProvider.db.update(item);
+              BlocProvider.of<ItemBloc>(context).add(
+                  ItemEvent.update(item)
+              );
+            },
+          ),
+          IconSlideAction(
+            icon: Icons.remove,
+            color: Colors.red,
+            onTap: (){
+              if (item.amountInStock>0){
+                item.amountInStock -= 1;
+                DatabaseProvider.db.update(item);
+                BlocProvider.of<ItemBloc>(context).add(
+                    ItemEvent.update(item)
+                );
+              }
+            },
+          ),
+        ],
+        child: ExpansionTile(
+          title: Row(
+            children: <Widget>[
+              Expanded(child:Text(item.name, textAlign: dirLang['tile_left'][lang])),
+              Text('${item.amountInStock}',textAlign: dirLang['tile_right'][lang]),
+            ],
+          ),
+          children: <Widget>[
+            Text('${expLang['base'][lang]} ${item.amountBase}'),
+            Text('${expLang['price1'][lang]} $required ${expLang['price2'][lang]} ${ils(totalPrice)}'),
+          ],
+        ),
       ),
-      children: <Widget>[
-        Text('Base Amount: ${item.amountBase}'),
-        Text('Need to buy $required for ${ils(totalPrice)}'),
-        FlatButton(
-          child: Row(children: <Widget>[Icon(Icons.clear,color: Colors.red,),Text('delete this item')]),
-          onPressed: () {deleteConfirmationDialog(context);},
-        )
-      ],
     );
   }
 }
@@ -99,24 +131,13 @@ class ShopExpansionTile extends StatelessWidget {
   markShoppingList(BuildContext context){
     TextEditingController customController = TextEditingController();
 
-    String controllerValidation(TextEditingController value){
-      if (value.text.length<3 && value.text.isNotEmpty){
-        return'length';
-      }
-      if ((!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value.text)) && value.text.isNotEmpty){
-        return'Please enter a positive whole number';
-      }
-      return null;
-    }
-
     return showDialog(context: context, builder: (context){
       customController.clear();
       return AlertDialog(
-        title: Text('Update List'),
+        title: Text(expLang['update'][lang]),
         content: TextField(
           decoration: InputDecoration(
-            labelText: 'How many did you get?',
-            errorText: controllerValidation(customController),
+            labelText: expLang['update_shop_question'][lang],
           ),
           controller: customController,
           keyboardType: TextInputType.number,
@@ -124,13 +145,13 @@ class ShopExpansionTile extends StatelessWidget {
         ),
         actions: <Widget>[
           MaterialButton(
-            child: Text('Submit'),
+            child: Text(genLang['submit'][lang]),
             onPressed: () {
               Navigator.of(context).pop(int.tryParse(customController.text));
             },
           ),
           MaterialButton(
-            child: Text('Cancel'),
+            child: Text(genLang['cancel'][lang]),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -154,7 +175,21 @@ class ShopExpansionTile extends StatelessWidget {
         actionExtentRatio: 0.25,
         actions: <Widget>[
           IconSlideAction(
-            caption: 'Fill',
+            caption: expLang['fill'][lang],
+            icon: Icons.check,
+            color: Colors.green,
+            onTap: (){
+              item.amountInStock = item.amountBase;
+              DatabaseProvider.db.update(item);
+              BlocProvider.of<ItemBloc>(context).add(
+                  ItemEvent.update(item)
+              );
+            },
+          ),
+        ],
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            caption: expLang['fill'][lang],
             icon: Icons.check,
             color: Colors.green,
             onTap: (){
@@ -182,12 +217,12 @@ class ShopExpansionTile extends StatelessWidget {
           ),
           title: Row(
             children: <Widget>[
-              Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-              Expanded(child:Text('Need: $required',textAlign: TextAlign.right)),
+              Expanded(child:Text(item.name, textAlign: dirLang['tile_left'][lang])),
+              Expanded(child:Text('${expLang['need'][lang]} $required',textAlign: dirLang['tile_right'][lang])),
             ],
           ),
           children: <Widget>[
-            Text('For the price of ${ils(totalPrice)}')
+            Text('${expLang['price_of'][lang]} ${ils(totalPrice)}')
           ],
         ),
       ),
@@ -201,25 +236,14 @@ class ReStockExpansionTile extends StatelessWidget {
   markShoppingList(BuildContext context){
     TextEditingController customController = TextEditingController();
 
-    String controllerValidation(TextEditingController value){
-      if (value.text.length<3 && value.text.isNotEmpty){
-        return'length';
-      }
-      if ((!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$').hasMatch(value.text)) && value.text.isNotEmpty){
-        return'Please enter a positive whole number';
-      }
-      return null;
-    }
-
     return showDialog(context: context, builder: (context){
       customController.clear();
       return AlertDialog(
-        title: Text('Update List'),
+        title: Text(expLang['update'][lang]),
         content: TextField(
           decoration: InputDecoration(
-            labelText: 'How many did you use?',
-            errorText: controllerValidation(customController),
-            helperText: 'entering a number larger than your stock will empty stock',
+            labelText: expLang['update_stock_question'][lang],
+            helperText: expLang['update_stock_helper'][lang],
             helperMaxLines: 3,
           ),
           controller: customController,
@@ -228,13 +252,13 @@ class ReStockExpansionTile extends StatelessWidget {
         ),
         actions: <Widget>[
           MaterialButton(
-            child: Text('Submit'),
+            child: Text(genLang['submit'][lang]),
             onPressed: () {
               Navigator.of(context).pop(int.tryParse(customController.text));
             },
           ),
           MaterialButton(
-            child: Text('Cancel'),
+            child: Text(genLang['cancel'][lang]),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -272,8 +296,8 @@ class ReStockExpansionTile extends StatelessWidget {
       ),
       title: Row(
         children: <Widget>[
-          Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-          Expanded(child:Text('In Stock: ${item.amountInStock}',textAlign: TextAlign.right)),
+          Expanded(child:Text(item.name, textAlign: dirLang['tile_left'][lang])),
+          Expanded(child:Text('${expLang['stock'][lang]} ${item.amountInStock}',textAlign: dirLang['tile_right'][lang])),
         ],
       ),
       onTap: () {},

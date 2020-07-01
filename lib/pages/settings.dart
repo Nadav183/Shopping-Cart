@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:organizer/style/designStyle.dart';
+import 'package:organizer/style/lang.dart';
 
 class Settings extends StatefulWidget {
 
@@ -18,11 +19,11 @@ class _SettingsState extends State<Settings>{
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.blue),
-            child: Text('Settings', style: text['header'],),
+            child: Text(setLang['settings'][lang], style: text['header'],),
           ),
           ListTile(
             title: FlatButton(
-                child: Text('Nothing to see here'),
+                child: Text(setLang['nothing'][lang]),
                 onPressed: () {Navigator.pop(context);},
             ),
             leading: Icon(Icons.keyboard_return),

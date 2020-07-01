@@ -6,6 +6,7 @@ import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
 import 'package:organizer/events/item_event.dart';
+import 'package:organizer/style/lang.dart';
 
 class ReStock extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class _ReStockState extends State<ReStock>{
                       actionExtentRatio: 0.25,
                       actions: <Widget>[
                         IconSlideAction(
-                          caption: 'Empty',
+                          caption: restLang['empty'][lang],
                           icon: Icons.delete_outline,
                           color: Colors.red,
                           onTap: (){

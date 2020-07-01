@@ -6,6 +6,7 @@ var text = {
   'drawerOption': drawerOptionStyle,
   'buttonText': buttonTextStyle,
   'cart': cartPriceStyle,
+  'subtitle': subtitleStyle,
 };
 
 var currency = {};
@@ -33,4 +34,10 @@ var cartPriceStyle = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.bold,
   color: Colors.black,
+);
+
+var subtitleStyle = TextStyle(
+  color: Colors.grey,
+  fontSize: 14,
+  fontStyle: FontStyle.italic,
 );

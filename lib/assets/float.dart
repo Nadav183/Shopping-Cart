@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:organizer/style/designStyle.dart';
+import 'package:organizer/style/lang.dart';
 import '../pages/addForm.dart';
-import '../db/database.dart';
 
 class MyFloatingButton extends FloatingActionButton {
   Widget build(BuildContext context){
@@ -11,10 +10,10 @@ class MyFloatingButton extends FloatingActionButton {
         children: <Widget>[
           Icon(Icons.add, color: Colors.white,),
           SizedBox(width: 5),
-          Text('Add Item',style: text['buttonText'],)
+          Text(fltLang['add'][lang],style: text['buttonText'],)
         ],
       ),
-      tooltip: 'Add new item',
+      tooltip: fltLang['add_tltp'][lang],
       backgroundColor: Colors.green,
       onPressed: () {
         Navigator.push(
@@ -23,38 +22,5 @@ class MyFloatingButton extends FloatingActionButton {
         );
       },
     );
-  }
-}
-
-class MyFloatingButton2 extends FloatingActionButton {
-
-  @override
-  Widget build(BuildContext context){
-    return Builder(builder: (context) => SpeedDial(
-      child: Icon(Icons.add),
-      children: <SpeedDialChild>[
-        SpeedDialChild(
-          child: Icon(Icons.add, color: Colors.white),
-          label: 'Add item',
-          backgroundColor: Colors.green,
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddForm())
-            );
-            print('pushAddForm was called');
-          },
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.remove, color: Colors.white),
-          label: 'Remove item',
-          backgroundColor: Colors.red,
-          onTap: () {
-            DatabaseProvider.db.deleteDatabase();
-            DatabaseProvider.db.getItems();
-          },
-        ),
-      ],
-    ));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizer/style/lang.dart';
 import '../style/designStyle.dart';
 
 Widget myDrawer(Function func, Map pages) {
@@ -11,7 +12,7 @@ Widget myDrawer(Function func, Map pages) {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Text('Options', style: text['header']),
+            child: Text(drawerLang['options'][lang], style: text['header']),
           ),
           ...((pages.keys).map((pageKey) {
             return Center(child: ListTile(

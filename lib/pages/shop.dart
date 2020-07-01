@@ -7,6 +7,7 @@ import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
 import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/designStyle.dart';
+import 'package:organizer/style/lang.dart';
 
 class Shop extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _ShopState extends State<Shop>{
                 children: List.generate(itemList.length+1, (i) {
                   if (i == 0){
                     return Text(
-                      'Total Price: ${ils(cartPrice)}',
+                      '${shopLang['price'][lang]} ${ils(cartPrice)}',
                       style: text['cart'],
                       textAlign: TextAlign.center,
                     );

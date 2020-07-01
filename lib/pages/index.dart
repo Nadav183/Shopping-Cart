@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/assets/expansionTiles.dart';
@@ -5,6 +6,7 @@ import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
 import 'package:organizer/events/item_event.dart';
+import 'package:organizer/style/lang.dart';
 
 class Index extends StatefulWidget {
   @override
@@ -55,10 +57,22 @@ class _IndexState extends State<Index>{
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
-              itemCount: itemList.length,
-              itemBuilder: (context, index) {
+              itemCount: itemList.length+1,
+              itemBuilder: (context, i) {
+                if (i == 0){
+                  return Container(
+                    padding: EdgeInsets.only(left: 16, right: 45),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(indLang['name'][lang],textAlign: dirLang['tile_left'][lang],)),
+                        Text(indLang['stock'][lang], textAlign: dirLang['tile_right'][lang],),
+                      ],
+                    ),
+                  );
+                }
+                i -= 1;
                 return Card(
-                  child: IndexExpansionTile(itemList[index]),
+                  child: IndexExpansionTile(itemList[i]),
                 );
               },
             );
@@ -67,7 +81,7 @@ class _IndexState extends State<Index>{
 
             Scaffold.of(context).showSnackBar(
               SnackBar(
-                content: Text('Updated'),
+                content: Text(genLang['updated'][lang]),
               ),
             );
           },

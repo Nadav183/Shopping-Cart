@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc_delegate.dart';
+import 'package:organizer/style/lang.dart';
 
 import 'assets/myAppBar.dart';
 import 'bloc/item_bloc.dart';
@@ -27,9 +28,9 @@ class _MyAppState extends State<MyApp> {
   var itemsDatabase = [];
   var curPage = 'index';
   var bodyPage = {
-    'index': [Index(),'Main',Icon(Icons.format_list_bulleted)],
-    'shop':[Shop(),'Shopping List', Icon(Icons.shopping_basket)],
-    'restock':[ReStock(),'ReStock Items', Icon(Icons.playlist_add)],
+    'index': [Index(),mainLang['index'][lang],Icon(Icons.format_list_bulleted)],
+    'shop':[Shop(),mainLang['shop'][lang], Icon(Icons.shopping_basket)],
+    //'restock':[ReStock(),'ReStock Items', Icon(Icons.playlist_add)],
   };
   void _changePage(String page) => setState(() {curPage = page;});
 
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => ItemBloc(),
       child: MaterialApp(
         home: Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: dirLang['genDir'][lang],
           child: Scaffold(
             appBar: MyAppBar(bodyPage[curPage][1]),
             body: (bodyPage[curPage][0]),
