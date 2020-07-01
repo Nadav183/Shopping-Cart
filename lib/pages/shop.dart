@@ -61,7 +61,7 @@ class _ShopState extends State<Shop>{
                 children: List.generate(itemList.length+1, (i) {
                   if (i == 0){
                     return Text(
-                      '${shopLang['price'][lang]} ${ils(cartPrice)}',
+                      '${shopLang['price'][lang]} ${currency(cartPrice)}',
                       style: text['cart'],
                       textAlign: TextAlign.center,
                     );

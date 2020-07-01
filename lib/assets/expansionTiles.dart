@@ -117,7 +117,7 @@ class IndexExpansionTile extends StatelessWidget {
           ),
           children: <Widget>[
             Text('${expLang['base'][lang]} ${item.amountBase}'),
-            Text('${expLang['price1'][lang]} $required ${expLang['price2'][lang]} ${ils(totalPrice)}'),
+            Text('${expLang['price1'][lang]} $required ${expLang['price2'][lang]} ${currency(totalPrice)}'),
           ],
         ),
       ),
@@ -222,7 +222,7 @@ class ShopExpansionTile extends StatelessWidget {
             ],
           ),
           children: <Widget>[
-            Text('${expLang['price_of'][lang]} ${ils(totalPrice)}')
+            Text('${expLang['price_of'][lang]} ${currency(totalPrice)}')
           ],
         ),
       ),

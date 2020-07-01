@@ -9,9 +9,9 @@ var text = {
   'subtitle': subtitleStyle,
 };
 
-var currency = {};
+var currentCurrency = 'ILS';
 
-Function ils = NumberFormat.simpleCurrency(name:'ILS').format;
+Function currency = NumberFormat.simpleCurrency(name: currentCurrency).format;
 
 var headerTextStyle = TextStyle(
   color: Colors.white,
