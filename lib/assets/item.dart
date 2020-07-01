@@ -7,7 +7,12 @@ class Item {
   int amountInStock;
   int amountBase;
 
-  Item({this.id, this.name, this.pricePerUnit, this.amountInStock = 0, this.amountBase});
+  Item(
+      {this.id,
+      this.name,
+      this.pricePerUnit,
+      this.amountInStock = 0,
+      this.amountBase});
 
   ///maps the keys of the DB columns to the values of an Item
   ///If the id is null it will be automatically set on DB side as PK
@@ -18,14 +23,14 @@ class Item {
       DatabaseProvider.COLUMN_STOCK: amountInStock,
       DatabaseProvider.COLUMN_BASE: amountBase,
     };
-    if (id !=null) {
+    if (id != null) {
       map[DatabaseProvider.COLUMN_ID] = id;
     }
     return map;
   }
 
   ///converts a map from the DB to an Item
-  Item.fromMap(Map<String, dynamic> map){
+  Item.fromMap(Map<String, dynamic> map) {
     id = map[DatabaseProvider.COLUMN_ID];
     name = map[DatabaseProvider.COLUMN_NAME];
     pricePerUnit = map[DatabaseProvider.COLUMN_PPU];

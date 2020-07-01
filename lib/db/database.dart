@@ -13,6 +13,7 @@ class DatabaseProvider {
   static const String COLUMN_STOCK = "stock";
 
   DatabaseProvider._();
+
   static final DatabaseProvider db = DatabaseProvider._();
 
   Database _database;
@@ -25,7 +26,6 @@ class DatabaseProvider {
     _database = await createDatabase();
     return _database;
   }
-
 
   Future<Database> createDatabase() async {
     String dbPath = await getDatabasesPath();
@@ -44,52 +44,43 @@ class DatabaseProvider {
           ")",
         );
       },
-      onUpgrade: (Database database, int oldVersion, int newVersion) async {
-      },
+      onUpgrade: (Database database, int oldVersion, int newVersion) async {},
     );
   }
 
-  Future<List<Item>> getItems() async{
+  Future<List<Item>> getItems() async {
     final db = await database;
 
-    var items = await db.query(
-      TABLE_GROCERIES,
-      columns: [
-        COLUMN_ID,
-        COLUMN_NAME,
-        COLUMN_PPU,
-        COLUMN_BASE,
-        COLUMN_STOCK,
-      ]
-    );
+    var items = await db.query(TABLE_GROCERIES, columns: [
+      COLUMN_ID,
+      COLUMN_NAME,
+      COLUMN_PPU,
+      COLUMN_BASE,
+      COLUMN_STOCK,
+    ]);
     List<Item> itemList = List<Item>();
-    items.forEach((curItem){
+    items.forEach((curItem) {
       Item item = Item.fromMap(curItem);
       itemList.add(item);
     });
     return itemList;
   }
 
-  Future<Item> insert (Item item) async {
+  Future<Item> insert(Item item) async {
     final db = await database;
     item.id = await db.insert(TABLE_GROCERIES, item.toMap());
     print('Inserting new item:\n'
-          'name: ${item.name}\n'
-          'ppu: ${item.pricePerUnit}\n'
-          'stock: ${item.amountInStock}\n'
-          'base: ${item.amountBase}\n'
-          'id: ${item.id}\n'
-    );
+        'name: ${item.name}\n'
+        'ppu: ${item.pricePerUnit}\n'
+        'stock: ${item.amountInStock}\n'
+        'base: ${item.amountBase}\n'
+        'id: ${item.id}\n');
     return item;
   }
 
-  Future<int> remove (int id) async {
+  Future<int> remove(int id) async {
     final db = await database;
-    return await db.delete(
-      TABLE_GROCERIES,
-      where: "id = ?",
-      whereArgs: [id]
-    );
+    return await db.delete(TABLE_GROCERIES, where: "id = ?", whereArgs: [id]);
   }
 
   Future<int> update(Item item) async {
@@ -102,9 +93,8 @@ class DatabaseProvider {
     );
   }
 
-
   Future<void> deleteDatabase() async {
     var dbPath = await getDatabasesPath();
-    databaseFactory.deleteDatabase(join(dbPath,'groceriesDB.db'));
+    databaseFactory.deleteDatabase(join(dbPath, 'groceriesDB.db'));
   }
 }

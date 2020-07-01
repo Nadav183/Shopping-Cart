@@ -3,19 +3,20 @@ import 'package:organizer/style/lang.dart';
 import '../style/designStyle.dart';
 
 Widget myDrawer(Function func, Map pages) {
-  return Builder(
-    builder: (context) => Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(drawerLang['options'][lang], style: text['header']),
+  return Builder(builder: (context) {
+    return Drawer(
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blue,
           ),
-          ...((pages.keys).map((pageKey) {
-            return Center(child: ListTile(
+          child: Text(drawerLang['options'][lang], style: text['header']),
+        ),
+        ...((pages.keys).map((pageKey) {
+          return Center(
+            child: ListTile(
               key: Key('${pageKey}_listTile'),
               leading: pages[pageKey][2],
               title: Text('${pages[pageKey][1]}', style: text['drawerOption']),
@@ -24,10 +25,9 @@ Widget myDrawer(Function func, Map pages) {
                 Navigator.pop(context);
               },
             ),
-            );
-          })),
-        ],
-      )
-    )
-  );
+          );
+        })),
+      ],
+    ));
+  });
 }

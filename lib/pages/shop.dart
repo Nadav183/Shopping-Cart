@@ -14,12 +14,13 @@ class Shop extends StatefulWidget {
   _ShopState createState() => _ShopState();
 }
 
-class _ShopState extends State<Shop>{
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+class _ShopState extends State<Shop> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   Future<Null> _refresh() async {
     DatabaseProvider.db.getItems().then(
-          (itemList) {
+      (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
@@ -29,7 +30,7 @@ class _ShopState extends State<Shop>{
   void initState() {
     super.initState();
     DatabaseProvider.db.getItems().then(
-          (itemList) {
+      (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
@@ -48,18 +49,18 @@ class _ShopState extends State<Shop>{
             return true;
           },
           listenWhen: (List<Item> previous, List<Item> current) {
-            if((current.length != previous.length) && (previous.length != 0)){
+            if ((current.length != previous.length) && (previous.length != 0)) {
               return true;
             }
             return true;
           },
-          builder: (context, itemList){
+          builder: (context, itemList) {
             return Container(
               child: ListView(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
                 scrollDirection: Axis.vertical,
-                children: List.generate(itemList.length+1, (i) {
-                  if (i == 0){
+                children: List.generate(itemList.length + 1, (i) {
+                  if (i == 0) {
                     return Text(
                       '${shopLang['price'][lang]} ${currency(cartPrice)}',
                       style: text['cart'],
@@ -68,13 +69,14 @@ class _ShopState extends State<Shop>{
                   }
                   i -= 1;
                   final item = itemList[i];
-                  if (item.amountBase-item.amountInStock>0){
+                  if (item.amountBase - item.amountInStock > 0) {
                     return Card(
                       key: Key('$i'),
                       child: ShopExpansionTile(itemList[i]),
                     );
+                  } else {
+                    return SizedBox.shrink();
                   }
-                  else {return SizedBox.shrink();}
                 }),
               ),
             );
@@ -82,9 +84,9 @@ class _ShopState extends State<Shop>{
           listener: (BuildContext context, itemList) {
             cartPrice = 0;
             itemList.forEach((item) {
-              var offset = item.amountBase-item.amountInStock;
-              if (offset>0){
-                cartPrice += offset*item.pricePerUnit;
+              var offset = item.amountBase - item.amountInStock;
+              if (offset > 0) {
+                cartPrice += offset * item.pricePerUnit;
               }
             });
           },

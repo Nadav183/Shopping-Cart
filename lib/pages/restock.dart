@@ -13,12 +13,13 @@ class ReStock extends StatefulWidget {
   _ReStockState createState() => _ReStockState();
 }
 
-class _ReStockState extends State<ReStock>{
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+class _ReStockState extends State<ReStock> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   Future<Null> _refresh() async {
     DatabaseProvider.db.getItems().then(
-          (itemList) {
+      (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
@@ -28,7 +29,7 @@ class _ReStockState extends State<ReStock>{
   void initState() {
     super.initState();
     DatabaseProvider.db.getItems().then(
-          (itemList) {
+      (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
@@ -46,12 +47,12 @@ class _ReStockState extends State<ReStock>{
             return true;
           },
           listenWhen: (List<Item> previous, List<Item> current) {
-            if((current.length != previous.length) && (previous.length != 0)){
+            if ((current.length != previous.length) && (previous.length != 0)) {
               return true;
             }
             return true;
           },
-          builder: (context, itemList){
+          builder: (context, itemList) {
             return ListView.builder(
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
               scrollDirection: Axis.vertical,
@@ -71,19 +72,17 @@ class _ReStockState extends State<ReStock>{
                           caption: restLang['empty'][lang],
                           icon: Icons.delete_outline,
                           color: Colors.red,
-                          onTap: (){
+                          onTap: () {
                             item.amountInStock = 0;
                             DatabaseProvider.db.update(item);
-                            BlocProvider.of<ItemBloc>(context).add(
-                                ItemEvent.update(item)
-                            );
+                            BlocProvider.of<ItemBloc>(context)
+                                .add(ItemEvent.update(item));
                           },
                         ),
                       ],
                       child: ReStockExpansionTile(itemList[i]),
                     ),
                   ),
-
                 );
               },
             );

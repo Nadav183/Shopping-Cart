@@ -8,9 +8,7 @@ import 'bloc/item_bloc.dart';
 import 'pages/index.dart';
 import 'pages/shop.dart';
 import 'assets/drawer.dart';
-import 'pages/restock.dart';
 import 'assets/float.dart';
-
 
 void main() {
   BlocSupervisor.delegate = ItemBlocDelegate();
@@ -28,11 +26,21 @@ class _MyAppState extends State<MyApp> {
   var itemsDatabase = [];
   var curPage = 'index';
   var bodyPage = {
-    'index': [Index(),mainLang['index'][lang],Icon(Icons.format_list_bulleted)],
-    'shop':[Shop(),mainLang['shop'][lang], Icon(Icons.shopping_basket)],
-    //'restock':[ReStock(),'ReStock Items', Icon(Icons.playlist_add)],
+    'index': [
+      Index(),
+      mainLang['index'][lang],
+      Icon(Icons.format_list_bulleted)
+    ],
+    'shop': [
+      Shop(),
+      mainLang['shop'][lang],
+      Icon(Icons.shopping_basket)
+    ],
   };
-  void _changePage(String page) => setState(() {curPage = page;});
+
+  void _changePage(String page) => setState(() {
+        curPage = page;
+      });
 
   @override
   Widget build(BuildContext context) {
