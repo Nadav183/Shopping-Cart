@@ -6,6 +6,7 @@ class Item {
   double pricePerUnit;
   int amountInStock;
   int amountBase;
+  int listOrd;
 
   Item({this.id, this.name, this.pricePerUnit, this.amountInStock = 0, this.amountBase});
 

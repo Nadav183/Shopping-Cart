@@ -33,6 +33,18 @@ class ItemBloc extends Bloc<ItemEvent, List<Item>>{
         newState[newState.indexWhere((item) => item.id == event.item.id)] = event.item;
         yield newState;
         break;
+      case EventType.reorder:
+        List<Item> newState = List.from(state);
+        var tempItem = newState[event.oldIndex];
+        newState.removeAt(event.oldIndex);
+        if (event.oldIndex<event.newIndex) {
+          newState.insert(event.newIndex-1, tempItem);
+        }
+        else {
+          newState.insert(event.newIndex, tempItem);
+        }
+        yield newState;
+        break;
       default:
         throw Exception('Unsupported event: $event');
         break;

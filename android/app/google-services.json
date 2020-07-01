@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "154088177690",
+    "firebase_url": "https://organizer-7992b.firebaseio.com",
+    "project_id": "organizer-7992b",
+    "storage_bucket": "organizer-7992b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154088177690:android:5ea85f5c1ed935f91151a3",
+        "android_client_info": {
+          "package_name": "com.nadav183.organizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154088177690-nkffh7prtt18tdco22a09ojc3cbv6et6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBApPEz01p9J4UVtmd37cV0sZh5x-QXgw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154088177690-nkffh7prtt18tdco22a09ojc3cbv6et6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

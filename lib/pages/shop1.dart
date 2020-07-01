@@ -55,28 +55,27 @@ class _ShopState extends State<Shop>{
           },
           builder: (context, itemList){
             return Container(
-              child: ReorderableListView(
-                onReorder: (oldIndex, newIndex) {
-                  BlocProvider.of<ItemBloc>(context).add(
-                      ItemEvent.reorder(oldIndex,newIndex)
-                  );
-                },
+              child: ListView.builder(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
                 scrollDirection: Axis.vertical,
-                header: Text(
-                  'Total Price: ${ils(cartPrice)}',
-                  style: text['cart'],
-                  textAlign: TextAlign.center,
-                ),
-                children: List.generate(itemList.length, (i) {
+                shrinkWrap: true,
+                itemCount: itemList.length,
+                itemBuilder: (context, i) {
+                  if (i==0){
+                    return Text(
+                      'Total Price: ${ils(cartPrice)}',
+                      style: text['cart'],
+                      textAlign: TextAlign.center,
+                    );
+                  }
+                  i -= 1;
                   final item = itemList[i];
                   if (item.amountBase-item.amountInStock>0){
                     return Card(
-                      key: Key('$i'),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
                         child: Slidable(
-                          key: Key('$i Slidable'),
+                          key: Key('$i'),
                           actionPane: SlidableScrollActionPane(),
                           actionExtentRatio: 0.25,
                           actions: <Widget>[
@@ -100,7 +99,7 @@ class _ShopState extends State<Shop>{
                     );
                   }
                   else {return SizedBox.shrink();}
-                }),
+                },
               ),
             );
           },
