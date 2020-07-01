@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizer/assets/expansionTiles.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
@@ -55,48 +54,23 @@ class _ShopState extends State<Shop>{
           },
           builder: (context, itemList){
             return Container(
-              child: ReorderableListView(
-                onReorder: (oldIndex, newIndex) {
-                  BlocProvider.of<ItemBloc>(context).add(
-                      ItemEvent.reorder(oldIndex,newIndex)
-                  );
-                },
+              child: ListView(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
                 scrollDirection: Axis.vertical,
-                header: Text(
-                  'Total Price: ${ils(cartPrice)}',
-                  style: text['cart'],
-                  textAlign: TextAlign.center,
-                ),
-                children: List.generate(itemList.length, (i) {
+                children: List.generate(itemList.length+1, (i) {
+                  if (i == 0){
+                    return Text(
+                      'Total Price: ${ils(cartPrice)}',
+                      style: text['cart'],
+                      textAlign: TextAlign.center,
+                    );
+                  }
+                  i -= 1;
                   final item = itemList[i];
                   if (item.amountBase-item.amountInStock>0){
                     return Card(
                       key: Key('$i'),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Slidable(
-                          key: Key('$i Slidable'),
-                          actionPane: SlidableScrollActionPane(),
-                          actionExtentRatio: 0.25,
-                          actions: <Widget>[
-                            IconSlideAction(
-                              caption: 'Fill',
-                              icon: Icons.check,
-                              color: Colors.green,
-                              onTap: (){
-                                item.amountInStock = item.amountBase;
-                                DatabaseProvider.db.update(item);
-                                BlocProvider.of<ItemBloc>(context).add(
-                                    ItemEvent.update(item)
-                                );
-                              },
-                            ),
-                          ],
-                          child: ShopExpansionTile(itemList[i]),
-                        ),
-                      ),
-
+                      child: ShopExpansionTile(itemList[i]),
                     );
                   }
                   else {return SizedBox.shrink();}

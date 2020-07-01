@@ -11,7 +11,6 @@ class DatabaseProvider {
   static const String COLUMN_PPU = "ppu";
   static const String COLUMN_BASE = "base";
   static const String COLUMN_STOCK = "stock";
-  static const String COLUMN_ORDER = "order";
 
   DatabaseProvider._();
   static final DatabaseProvider db = DatabaseProvider._();
@@ -42,22 +41,10 @@ class DatabaseProvider {
           "$COLUMN_PPU REAL,"
           "$COLUMN_BASE INTEGER,"
           "$COLUMN_STOCK INTEGER"
-          "$COLUMN_ORDER INTEGER"
           ")",
         );
       },
       onUpgrade: (Database database, int oldVersion, int newVersion) async {
-
-        if (oldVersion<2){
-          await database.execute(
-              "ALTER TABLE "
-                  "$TABLE_GROCERIES"
-                  " ADD COLUMN "
-                  "$COLUMN_ORDER"
-                  " INTEGER"
-          );
-          await DatabaseProvider.db.resetOrder();
-        }
       },
     );
   }
@@ -73,7 +60,6 @@ class DatabaseProvider {
         COLUMN_PPU,
         COLUMN_BASE,
         COLUMN_STOCK,
-        COLUMN_ORDER,
       ]
     );
     List<Item> itemList = List<Item>();
@@ -84,7 +70,7 @@ class DatabaseProvider {
     return itemList;
   }
 
-  Future<Item> insert (Item item, int order) async {
+  Future<Item> insert (Item item) async {
     final db = await database;
     item.id = await db.insert(TABLE_GROCERIES, item.toMap());
     print('Inserting new item:\n'
@@ -93,7 +79,6 @@ class DatabaseProvider {
           'stock: ${item.amountInStock}\n'
           'base: ${item.amountBase}\n'
           'id: ${item.id}\n'
-          'order: $order'
     );
     return item;
   }
@@ -117,14 +102,6 @@ class DatabaseProvider {
     );
   }
 
-  Future<void> resetOrder() async {
-    var i = 0;
-    final db = await database;
-    db.rawUpdate(
-      "UPDATE $TABLE_GROCERIES "
-          "SET $COLUMN_ORDER = ${i++}"
-    );
-  }
 
   Future<void> deleteDatabase() async {
     var dbPath = await getDatabasesPath();

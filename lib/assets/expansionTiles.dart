@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
@@ -145,29 +146,51 @@ class ShopExpansionTile extends StatelessWidget {
     var required = item.amountBase-item.amountInStock;
     if (required<0) {required = 0;}
     var totalPrice = required*item.pricePerUnit;
-    return ExpansionTile(
-      leading: IconButton(
-        icon: Icon(Icons.add, color: Colors.green,),
-        onPressed: () {
-          markShoppingList(context).then((newStock) {
-            if (newStock == null){newStock = 0;}
-            item.amountInStock += newStock;
-            DatabaseProvider.db.update(item);
-            BlocProvider.of<ItemBloc>(context).add(
-                ItemEvent.update(item)
-            );
-          });
-        },
-      ),
-      title: Row(
-        children: <Widget>[
-          Expanded(child:Text(item.name, textAlign: TextAlign.left)),
-          Expanded(child:Text('Need: $required',textAlign: TextAlign.right)),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Slidable(
+        key: Key('${item.name}'),
+        actionPane: SlidableScrollActionPane(),
+        actionExtentRatio: 0.25,
+        actions: <Widget>[
+          IconSlideAction(
+            caption: 'Fill',
+            icon: Icons.check,
+            color: Colors.green,
+            onTap: (){
+              item.amountInStock = item.amountBase;
+              DatabaseProvider.db.update(item);
+              BlocProvider.of<ItemBloc>(context).add(
+                  ItemEvent.update(item)
+              );
+            },
+          ),
         ],
+        child: ExpansionTile(
+          leading: IconButton(
+            icon: Icon(Icons.add, color: Colors.green,),
+            onPressed: () {
+              markShoppingList(context).then((newStock) {
+                if (newStock == null){newStock = 0;}
+                item.amountInStock += newStock;
+                DatabaseProvider.db.update(item);
+                BlocProvider.of<ItemBloc>(context).add(
+                    ItemEvent.update(item)
+                );
+              });
+            },
+          ),
+          title: Row(
+            children: <Widget>[
+              Expanded(child:Text(item.name, textAlign: TextAlign.left)),
+              Expanded(child:Text('Need: $required',textAlign: TextAlign.right)),
+            ],
+          ),
+          children: <Widget>[
+            Text('For the price of ${ils(totalPrice)}')
+          ],
+        ),
       ),
-      children: <Widget>[
-        Text('For the price of ${ils(totalPrice)}')
-      ],
     );
   }
 }
