@@ -12,6 +12,9 @@ class DatabaseProvider {
   static const String COLUMN_BASE = "base";
   static const String COLUMN_STOCK = "stock";
 
+  static const String TABLE_SETTINGS = "settings";
+
+
   DatabaseProvider._();
 
   static final DatabaseProvider db = DatabaseProvider._();

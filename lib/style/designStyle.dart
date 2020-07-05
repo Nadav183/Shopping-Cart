@@ -1,22 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//called as - style: text[type]
+
+var themes = ['default','alt'];
+var currencies = ['ILS','USD','GBP','JPY'];
+
+var curTheme = 'alt';
+
+var currentCurrency = 'ILS';
+
 var text = {
-  'header': headerTextStyle,
+  'header': headerTextChooser[curTheme],
   'drawerOption': drawerOptionStyle,
   'buttonText': buttonTextStyle,
   'cart': cartPriceStyle,
   'subtitle': subtitleStyle,
+  'ddButton': ddButtonStyle,
 };
-
-var currentCurrency = 'ILS';
 
 Function currency = NumberFormat.simpleCurrency(name: currentCurrency).format;
 
-var headerTextStyle = TextStyle(
-  color: Colors.white,
-  fontSize: 28,
-  fontWeight: FontWeight.bold,
+void refreshStyle(){
+  text = {
+    'header': headerTextChooser[curTheme],
+    'drawerOption': drawerOptionStyle,
+    'buttonText': buttonTextStyle,
+    'cart': cartPriceStyle,
+    'subtitle': subtitleStyle,
+  };
+  currency = NumberFormat.simpleCurrency(name: currentCurrency).format;
+}
+
+
+
+
+
+var headerTextChooser = {
+  'default': TextStyle(
+    color: Colors.white,
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+  ),
+  'alt': TextStyle(
+    color: Colors.green,
+    fontSize: 50,
+    fontWeight: FontWeight.bold,
+  )
+};
+
+var ddButtonStyle = TextStyle(
+
 );
 
 var drawerOptionStyle = TextStyle(

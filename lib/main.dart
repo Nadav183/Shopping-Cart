@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc_delegate.dart';
+import 'package:organizer/style/designStyle.dart';
 import 'package:organizer/style/lang.dart';
 
 import 'assets/myAppBar.dart';
+import 'assets/settings_class.dart';
 import 'bloc/item_bloc.dart';
+import 'bloc/settings_bloc/settings_bloc.dart';
 import 'pages/index.dart';
 import 'pages/shop.dart';
 import 'assets/drawer.dart';
@@ -23,7 +26,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var itemsDatabase = [];
   var curPage = 'index';
   var bodyPage = {
     'index': [
@@ -37,25 +39,68 @@ class _MyAppState extends State<MyApp> {
       Icon(Icons.shopping_basket)
     ],
   };
-
+  void refreshBody(){
+    bodyPage = {
+      'index': [
+        Index(),
+        mainLang['index'][lang],
+        Icon(Icons.format_list_bulleted)
+      ],
+      'shop': [
+        Shop(),
+        mainLang['shop'][lang],
+        Icon(Icons.shopping_basket)
+      ],
+    };
+  }
+  void resetPage(){
+    refreshBody();
+    refreshStyle();
+  }
   void _changePage(String page) => setState(() {
         curPage = page;
       });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ItemBloc>(
-      create: (context) => ItemBloc(),
-      child: MaterialApp(
-        home: Directionality(
-          textDirection: dirLang['genDir'][lang],
-          child: Scaffold(
-            appBar: MyAppBar(bodyPage[curPage][1]),
-            body: (bodyPage[curPage][0]),
-            drawer: myDrawer(_changePage, bodyPage),
-            floatingActionButton: MyFloatingButton(),
-          ),
-        ),
+    return BlocProvider<SettingsBloc>(
+      create: (context) => SettingsBloc(),
+      child: BlocConsumer<SettingsBloc, Settings>(
+        buildWhen: (Settings previous, Settings current) {
+          if (previous != current){
+            print('built');
+            return true;
+          }
+          else return false;
+        },
+        listenWhen: (Settings previous, Settings current) {
+          if (previous != current){
+            return true;
+          }
+          else return false;
+        },
+        builder: (context, settings) {
+          lang = settings.language;
+          curTheme = settings.theme;
+          currentCurrency = settings.currency;
+          resetPage();
+          return MaterialApp(
+            home: Directionality(
+              textDirection: dirLang['genDir'][lang],
+              child: BlocProvider<ItemBloc>(
+                create: (context) => ItemBloc(),
+                child: Scaffold(
+                  appBar: MyAppBar(bodyPage[curPage][1]),
+                  body: (bodyPage[curPage][0]),
+                  drawer: myDrawer(_changePage, bodyPage),
+                  floatingActionButton: MyFloatingButton(),
+                ),
+              ),
+            ),
+          );
+        },
+        listener: (BuildContext context, Settings state) {
+        },
       ),
     );
   }

@@ -27,7 +27,7 @@ class _MyAppBarState extends State<MyAppBar> {
           icon: Icon(Icons.settings),
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Settings()));
+                .push(MaterialPageRoute(builder: (context) => SettingsView()));
           },
         ),
       ],

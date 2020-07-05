@@ -1,6 +1,11 @@
 class Settings {
-  String country = 'Israel';
-  String language = 'hebrew';
-  String currency = 'ILS';
-  String theme = 'light';
+  String language;
+  String currency;
+  String theme;
+
+  Settings({
+    this.currency = 'ILS',
+    this.language = 'HE',
+    this.theme = 'default',
+  });
 }

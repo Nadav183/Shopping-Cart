@@ -1,4 +1,8 @@
+
+
 import 'package:flutter/material.dart';
+
+var languages = ['HE','EN'];
 
 var lang = 'EN';
 
@@ -228,6 +232,51 @@ var setLang = {
     'EN':'Nothing to see here yet',
     'HE':'אין כאן מה לראות עדיין'
   },
+  'language':{
+    'EN':'Change Language',
+    'HE':'שנה שפה'
+  },
+  'theme':{
+    'EN':'Change Theme',
+    'HE':'החלף סגנון'
+  },
+  'default':{
+    'EN':'Default Theme',
+    'HE':'סגנון ברירת מחדל'
+  },
+  'alt':{
+    'EN':'Alternative Theme',
+    'HE':'סגנון אלטרנטיבי'
+  },
+  'HE':{
+    'EN':'Hebrew',
+    'HE':'עברית'
+  },
+  'EN':{
+    'EN':'English',
+    'HE':'אנגלית'
+  },
+  'currency':{
+    'EN':'Select your currency',
+    'HE':'בחר מטבע'
+  },
+  'ILS':{
+    'EN':'Israeli Shekel',
+    'HE':'שקל'
+  },
+  'USD':{
+    'EN':'US Dollar',
+    'HE':'דולר'
+  },
+  'GBP':{
+    'EN':'English Pound',
+    'HE':'פאונד'
+  },
+  'JPY':{
+    'EN':'Japanese Yen',
+    'HE':'ין'
+  },
+
 };
 
 var restLang = {
