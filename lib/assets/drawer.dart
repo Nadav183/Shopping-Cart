@@ -9,9 +9,7 @@ Widget myDrawer(Function func, Map pages) {
       padding: EdgeInsets.zero,
       children: <Widget>[
         DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.blue,
-          ),
+          decoration: drawerStyle['decoration'],
           child: Text(drawerLang['options'][lang], style: text['header']),
         ),
         ...((pages.keys).map((pageKey) {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 var languages = ['HE','EN'];
 
-var lang = 'EN';
+String lang;
 
 var dirLang = {
   /// explicit directions in names refer to EN direction

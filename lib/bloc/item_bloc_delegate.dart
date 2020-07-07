@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/assets/item.dart';
+import 'package:organizer/assets/settings_class.dart';
 
-class ItemBlocDelegate extends BlocDelegate {
+class OrganizerBlocDelegate extends BlocDelegate {
   @override
   void onEvent(Bloc bloc, Object event) {
     super.onEvent(bloc, event);
@@ -10,8 +12,15 @@ class ItemBlocDelegate extends BlocDelegate {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition.currentState);
-    print(transition.nextState);
+    if (transition.currentState is Item){
+      print(transition.currentState);
+      print(transition.nextState);
+    }
+    else if (transition.currentState is Settings){
+      print('lang = ${transition.currentState.language}, cur = ${transition.currentState.currency}, theme = ${transition.currentState.theme}');
+      print('lang = ${transition.nextState.language}, cur = ${transition.nextState.currency}, theme = ${transition.nextState.theme}');
+    }
+
   }
 
   @override

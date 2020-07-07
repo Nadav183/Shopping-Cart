@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/assets/expansionTiles.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/bloc/item_bloc.dart';
+import 'package:organizer/bloc/settings_bloc/settings_bloc.dart';
 import 'package:organizer/db/database.dart';
+import 'package:organizer/db/preferencesDB.dart';
 import 'package:organizer/events/item_event.dart';
+import 'package:organizer/events/settings_event.dart';
 import 'package:organizer/style/lang.dart';
 
 class Index extends StatefulWidget {
@@ -33,6 +36,11 @@ class _IndexState extends State<Index>{
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
+    getPreferences().then((prefs){
+      BlocProvider.of<SettingsBloc>(context).add(
+        SettingsEvent.update(prefs)
+      );
+    });
   }
 
   @override

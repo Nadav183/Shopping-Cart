@@ -10,7 +10,7 @@ class SettingsBlocDelegate extends BlocDelegate {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition.currentState);
+    print('lang = ${transition.currentState.language}');
     print(transition.nextState);
   }
 

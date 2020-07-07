@@ -3,8 +3,11 @@ import 'package:organizer/assets/settings_class.dart';
 import 'package:organizer/events/settings_event.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, Settings> {
+
   @override
-  Settings get initialState => Settings();
+  Settings get initialState {
+    return Settings();
+  }
 
   @override
   Stream<Settings> mapEventToState(SettingsEvent event) async* {

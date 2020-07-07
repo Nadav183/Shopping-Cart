@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/pages/settings/settings.dart';
+import 'package:organizer/pages/settings.dart';
 import 'package:organizer/style/designStyle.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -18,6 +18,7 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: appBarStyle['bgColor'],
       title: Text(
         widget.titleText,
         style: text['header'],

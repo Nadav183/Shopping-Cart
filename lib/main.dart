@@ -13,7 +13,7 @@ import 'package:organizer/assets/drawer.dart';
 import 'package:organizer/assets/float.dart';
 
 void main() {
-  BlocSupervisor.delegate = ItemBlocDelegate();
+  BlocSupervisor.delegate = OrganizerBlocDelegate();
   runApp(MyApp());
 }
 

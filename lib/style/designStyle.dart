@@ -19,6 +19,33 @@ var text = {
   'ddButton': ddButtonStyle,
 };
 
+var appBarStyle = {
+  'bgColor' : appBarStyleChooser[curTheme]['bgColor'],
+};
+
+var drawerStyle = {
+  'decoration': drawerDecoration[curTheme]
+};
+
+var drawerDecoration = {
+  'default' : BoxDecoration(
+    color: Colors.blue,
+  ),
+  'alt' : BoxDecoration(
+    color: Colors.purple,
+  ),
+};
+
+var appBarStyleChooser = {
+  'default' : {
+    'bgColor': Colors.blue,
+  },
+  'alt': {
+    'bgColor': Colors.purple,
+  }
+};
+
+
 Function currency = NumberFormat.simpleCurrency(name: currentCurrency).format;
 
 void refreshStyle(){
@@ -29,12 +56,17 @@ void refreshStyle(){
     'cart': cartPriceStyle,
     'subtitle': subtitleStyle,
   };
+
+  appBarStyle = {
+    'bgColor' : appBarStyleChooser[curTheme]['bgColor'],
+  };
+
+  drawerStyle = {
+    'decoration': drawerDecoration[curTheme]
+  };
+
   currency = NumberFormat.simpleCurrency(name: currentCurrency).format;
 }
-
-
-
-
 
 var headerTextChooser = {
   'default': TextStyle(
@@ -43,8 +75,8 @@ var headerTextChooser = {
     fontWeight: FontWeight.bold,
   ),
   'alt': TextStyle(
-    color: Colors.green,
-    fontSize: 50,
+    color: Colors.white,
+    fontSize: 28,
     fontWeight: FontWeight.bold,
   )
 };
