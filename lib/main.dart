@@ -3,15 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc_delegate.dart';
 import 'package:organizer/style/designStyle.dart';
 import 'package:organizer/style/lang.dart';
-
-import 'assets/myAppBar.dart';
-import 'assets/settings_class.dart';
-import 'bloc/item_bloc.dart';
-import 'bloc/settings_bloc/settings_bloc.dart';
-import 'pages/index.dart';
-import 'pages/shop.dart';
-import 'assets/drawer.dart';
-import 'assets/float.dart';
+import 'package:organizer/assets/myAppBar.dart';
+import 'package:organizer/assets/settings_class.dart';
+import 'package:organizer/bloc/item_bloc.dart';
+import 'package:organizer/bloc/settings_bloc/settings_bloc.dart';
+import 'package:organizer/pages/index.dart';
+import 'package:organizer/pages/shop.dart';
+import 'package:organizer/assets/drawer.dart';
+import 'package:organizer/assets/float.dart';
 
 void main() {
   BlocSupervisor.delegate = ItemBlocDelegate();
@@ -33,30 +32,25 @@ class _MyAppState extends State<MyApp> {
       mainLang['index'][lang],
       Icon(Icons.format_list_bulleted)
     ],
-    'shop': [
-      Shop(),
-      mainLang['shop'][lang],
-      Icon(Icons.shopping_basket)
-    ],
+    'shop': [Shop(), mainLang['shop'][lang], Icon(Icons.shopping_basket)],
   };
-  void refreshBody(){
+
+  void refreshBody() {
     bodyPage = {
       'index': [
         Index(),
         mainLang['index'][lang],
         Icon(Icons.format_list_bulleted)
       ],
-      'shop': [
-        Shop(),
-        mainLang['shop'][lang],
-        Icon(Icons.shopping_basket)
-      ],
+      'shop': [Shop(), mainLang['shop'][lang], Icon(Icons.shopping_basket)],
     };
   }
-  void resetPage(){
+
+  void resetPage() {
     refreshBody();
     refreshStyle();
   }
+
   void _changePage(String page) => setState(() {
         curPage = page;
       });
@@ -67,17 +61,17 @@ class _MyAppState extends State<MyApp> {
       create: (context) => SettingsBloc(),
       child: BlocConsumer<SettingsBloc, Settings>(
         buildWhen: (Settings previous, Settings current) {
-          if (previous != current){
+          if (previous != current) {
             print('built');
             return true;
-          }
-          else return false;
+          } else
+            return false;
         },
         listenWhen: (Settings previous, Settings current) {
-          if (previous != current){
+          if (previous != current) {
             return true;
-          }
-          else return false;
+          } else
+            return false;
         },
         builder: (context, settings) {
           lang = settings.language;
@@ -99,8 +93,7 @@ class _MyAppState extends State<MyApp> {
             ),
           );
         },
-        listener: (BuildContext context, Settings state) {
-        },
+        listener: (BuildContext context, Settings state) {},
       ),
     );
   }

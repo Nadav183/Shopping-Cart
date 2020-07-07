@@ -7,7 +7,6 @@ import 'package:organizer/style/designStyle.dart';
 import 'package:organizer/style/lang.dart';
 import 'package:organizer/assets/settings_class.dart';
 
-
 class SettingsView extends StatefulWidget {
   _SettingsViewState createState() => _SettingsViewState();
 }

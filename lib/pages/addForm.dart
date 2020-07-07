@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/lang.dart';
-
-import '../db/database.dart';
-import '../assets/item.dart';
-import '../style/designStyle.dart';
+import 'package:organizer/db/database.dart';
+import 'package:organizer/assets/item.dart';
+import 'package:organizer/style/designStyle.dart';
 
 class AddForm extends StatefulWidget {
   @override
@@ -35,7 +34,8 @@ class _AddFormState extends State<AddForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
-                  decoration: InputDecoration(labelText: formLang['name'][lang]),
+                  decoration:
+                      InputDecoration(labelText: formLang['name'][lang]),
                   validator: (value) {
                     if (value.isEmpty) {
                       return formLang['name_val'][lang];
@@ -68,8 +68,7 @@ class _AddFormState extends State<AddForm> {
                 TextFormField(
                   initialValue: '0',
                   decoration: InputDecoration(
-                      labelText: formLang['stock'][lang],
-                      hintText: '0'),
+                      labelText: formLang['stock'][lang], hintText: '0'),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     WhitelistingTextInputFormatter.digitsOnly
@@ -89,7 +88,8 @@ class _AddFormState extends State<AddForm> {
                   }),
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: formLang['base'][lang]),
+                  decoration:
+                      InputDecoration(labelText: formLang['base'][lang]),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     WhitelistingTextInputFormatter.digitsOnly

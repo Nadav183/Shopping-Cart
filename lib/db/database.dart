@@ -1,5 +1,5 @@
 import 'dart:async';
-import '../assets/item.dart';
+import 'package:organizer/assets/item.dart';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -11,9 +11,6 @@ class DatabaseProvider {
   static const String COLUMN_PPU = "ppu";
   static const String COLUMN_BASE = "base";
   static const String COLUMN_STOCK = "stock";
-
-  static const String TABLE_SETTINGS = "settings";
-
 
   DatabaseProvider._();
 

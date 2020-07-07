@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:organizer/style/lang.dart';
-import '../style/designStyle.dart';
+import 'package:organizer/style/designStyle.dart';
 
 Widget myDrawer(Function func, Map pages) {
   return Builder(builder: (context) {

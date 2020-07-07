@@ -1,4 +1,4 @@
-import '../db/database.dart';
+import 'package:organizer/db/database.dart';
 
 class Item {
   int id;
