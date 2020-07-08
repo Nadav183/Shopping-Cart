@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizer/assets/item.dart';
-import 'package:organizer/bloc/item_bloc.dart';
-import 'package:organizer/db/database.dart';
-import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/designStyle.dart';
 import 'package:organizer/style/lang.dart';
 import 'package:organizer/assets/editForm.dart';
@@ -56,8 +52,7 @@ class IndexExpansionTile extends StatelessWidget {
             color: Colors.green,
             onTap: () {
               item.amountInStock += 1;
-              DatabaseProvider.db.update(item);
-              BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+              item.updateInDB(context);
             },
           ),
           IconSlideAction(
@@ -66,8 +61,7 @@ class IndexExpansionTile extends StatelessWidget {
             onTap: () {
               if (item.amountInStock > 0) {
                 item.amountInStock -= 1;
-                DatabaseProvider.db.update(item);
-                BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+                item.updateInDB(context);
               }
             },
           ),
@@ -85,8 +79,7 @@ class IndexExpansionTile extends StatelessWidget {
             color: Colors.green,
             onTap: () {
               item.amountInStock += 1;
-              DatabaseProvider.db.update(item);
-              BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+              item.updateInDB(context);
             },
           ),
           IconSlideAction(
@@ -95,8 +88,7 @@ class IndexExpansionTile extends StatelessWidget {
             onTap: () {
               if (item.amountInStock > 0) {
                 item.amountInStock -= 1;
-                DatabaseProvider.db.update(item);
-                BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+                item.updateInDB(context);
               }
             },
           ),
@@ -185,8 +177,7 @@ class ShopExpansionTile extends StatelessWidget {
             color: Colors.green,
             onTap: () {
               item.amountInStock = item.amountBase;
-              DatabaseProvider.db.update(item);
-              BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+              item.updateInDB(context);
             },
           ),
         ],
@@ -197,8 +188,7 @@ class ShopExpansionTile extends StatelessWidget {
             color: Colors.green,
             onTap: () {
               item.amountInStock = item.amountBase;
-              DatabaseProvider.db.update(item);
-              BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+              item.updateInDB(context);
             },
           ),
         ],
@@ -214,8 +204,7 @@ class ShopExpansionTile extends StatelessWidget {
                   newStock = 0;
                 }
                 item.amountInStock += newStock;
-                DatabaseProvider.db.update(item);
-                BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+                item.updateInDB(context);
               });
             },
           ),
@@ -305,8 +294,7 @@ class ReStockExpansionTile extends StatelessWidget {
             } else {
               item.amountInStock -= newStock;
             }
-            DatabaseProvider.db.update(item);
-            BlocProvider.of<ItemBloc>(context).add(ItemEvent.update(item));
+            item.updateInDB(context);
           });
         },
       ),
