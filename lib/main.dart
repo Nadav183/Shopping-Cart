@@ -13,6 +13,7 @@ import 'package:organizer/assets/drawer.dart';
 import 'package:organizer/assets/float.dart';
 
 void main() {
+  // deals with bloc events
   BlocSupervisor.delegate = OrganizerBlocDelegate();
   runApp(MyApp());
 }
@@ -25,7 +26,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // indicates the current page we are in, changed by _changePage()
   var curPage = 'index';
+
+  // holds info for main pages of the app, the widget, the title, the icon
   var bodyPage = {
     'index': [
       Index(),
@@ -35,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     'shop': [Shop(), mainLang['shop'][lang], Icon(Icons.shopping_basket)],
   };
 
+  // refreshes the body page, just redefine the bodyPage variable as itself after a language change
   void refreshBody() {
     bodyPage = {
       'index': [
@@ -46,11 +51,13 @@ class _MyAppState extends State<MyApp> {
     };
   }
 
+  // groups together functions required for resetting a page
   void resetPage() {
     refreshBody();
-    refreshStyle();
+    refreshStyle(); // from designStyle.dart
   }
 
+  // sets the current page
   void _changePage(String page) => setState(() {
         curPage = page;
       });
@@ -59,30 +66,34 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocProvider<SettingsBloc>(
       create: (context) => SettingsBloc(),
-      child: BlocConsumer<SettingsBloc, Settings>(
-        buildWhen: (Settings previous, Settings current) {
-          if (previous != current) {
-            print('built');
-            return true;
-          } else
-            return false;
-        },
-        listenWhen: (Settings previous, Settings current) {
-          if (previous != current) {
-            return true;
-          } else
-            return false;
-        },
-        builder: (context, settings) {
-          lang = settings.language;
-          curTheme = settings.theme;
-          currentCurrency = settings.currency;
-          resetPage();
-          return MaterialApp(
-            home: Directionality(
-              textDirection: dirLang['genDir'][lang],
-              child: BlocProvider<ItemBloc>(
-                create: (context) => ItemBloc(),
+      child: BlocProvider<ItemBloc>(
+        create: (context) => ItemBloc(),
+        child: BlocConsumer<SettingsBloc, Settings>(
+          buildWhen: (Settings previous, Settings current) {
+            // build when settings are changed
+            if (previous != current) {
+              print('built');
+              return true;
+            } else
+              return false;
+          },
+          listenWhen: (Settings previous, Settings current) {
+            // listens for a settings change
+            if (previous != current) {
+              return true;
+            } else
+              return false;
+          },
+          builder: (context, settings) {
+            // sets the lang, theme and currency to be taken from the bloc
+            lang = settings.language; // from lang.dart
+            curTheme = settings.theme; // from designStyle.dart
+            currentCurrency = settings.currency; // from designStyle.dart
+            resetPage();
+
+            return MaterialApp(
+              home: Directionality(
+                textDirection: dirLang['genDir'][lang],
                 child: Scaffold(
                   appBar: MyAppBar(bodyPage[curPage][1]),
                   body: (bodyPage[curPage][0]),
@@ -90,10 +101,10 @@ class _MyAppState extends State<MyApp> {
                   floatingActionButton: MyFloatingButton(),
                 ),
               ),
-            ),
-          );
-        },
-        listener: (BuildContext context, Settings state) {},
+            );
+          },
+          listener: (BuildContext context, Settings state) {},
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:organizer/db/database.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/style/designStyle.dart';
 
+// a form for editing an instance of an item
 class EditForm extends StatefulWidget {
   final Item item;
 
@@ -19,8 +20,9 @@ class EditForm extends StatefulWidget {
 }
 
 class _EditFormState extends State<EditForm> {
-  var _autovalidate = false;
+  var _autovalidate = false; // will be set to true after first for failure
 
+  // pop-up dialog to make sure user wants to delete an item from the list
   deleteConfirmationDialog(BuildContext context) {
     return showDialog(
         context: context,
@@ -54,6 +56,7 @@ class _EditFormState extends State<EditForm> {
         });
   }
 
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -64,15 +67,18 @@ class _EditFormState extends State<EditForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            // initial value is the edited item's name
             initialValue: widget.item.name,
             decoration: InputDecoration(labelText: formLang['name'][lang]),
             validator: (value) {
               if (value.isEmpty) {
+                // makes sure the value is not empty
                 return formLang['name_val1'][lang];
               }
               return null;
             },
             onSaved: ((value) {
+              // sets the items name to the inserted value
               widget.item.name = value;
             }),
           ),
@@ -82,12 +88,15 @@ class _EditFormState extends State<EditForm> {
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value.isEmpty) {
+                // make sure the value is not empty
                 return formLang['ppu_val1'][lang];
               }
               if (double.tryParse(value) == null) {
+                // makes sure the value can be parsed as a double
                 return formLang['ppu_val2'][lang];
               }
               if (double.tryParse(value) <= 0) {
+                // makes sure the value when parsed as double is larger than 0
                 return formLang['ppu_val3'][lang];
               }
               return null;
@@ -106,10 +115,13 @@ class _EditFormState extends State<EditForm> {
             ],
             validator: (value) {
               if (value.isEmpty) {
+                // makes sure value not empty
                 return formLang['stock_val1'][lang];
               }
               if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
                   .hasMatch(value)) {
+                //TODO: change this to tryParse
+                // makes sure the value fits a double regexp
                 return formLang['stock_val2'][lang];
               }
               return null;
@@ -142,6 +154,7 @@ class _EditFormState extends State<EditForm> {
               widget.item.amountBase = int.parse(value);
             }),
           ),
+          // adds some space before the buttons
           SizedBox(
             height: 20,
           ),

@@ -16,12 +16,10 @@ class IndexExpansionTile extends StatelessWidget {
   IndexExpansionTile(this.item);
 
   markShoppingList(BuildContext context) {
-    TextEditingController customController = TextEditingController();
 
     return showDialog(
         context: context,
         builder: (context) {
-          customController.clear();
           return AlertDialog(
             title: Text('${genLang['edit'][lang]} ${item.name}'),
             content: Wrap(

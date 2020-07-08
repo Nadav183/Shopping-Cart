@@ -21,6 +21,7 @@ var text = {
 
 var appBarStyle = {
   'bgColor' : appBarStyleChooser[curTheme]['bgColor'],
+  'theme' : appBarStyleChooser[curTheme]['theme'],
 };
 
 var drawerStyle = {
@@ -39,9 +40,14 @@ var drawerDecoration = {
 var appBarStyleChooser = {
   'default' : {
     'bgColor': Colors.blue,
+    'theme' : AppBarTheme()
   },
   'alt': {
     'bgColor': Colors.purple,
+    'theme' : AppBarTheme(
+      color: Colors.purple,
+      elevation: 52,
+    ),
   }
 };
 
