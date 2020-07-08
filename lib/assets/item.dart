@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/bloc/item_bloc.dart';
 import 'package:organizer/db/database.dart';
+import 'package:organizer/events/item_event.dart';
 
 class Item {
   int id;
@@ -36,5 +40,35 @@ class Item {
     pricePerUnit = map[DatabaseProvider.COLUMN_PPU];
     amountInStock = map[DatabaseProvider.COLUMN_STOCK];
     amountBase = map[DatabaseProvider.COLUMN_BASE];
+  }
+
+  // handles inserting the item to the Database and calling the Bloc event for
+  // inserting an item to the ItemBloc
+  Future<void> insertToDB(BuildContext context) async {
+    DatabaseProvider.db.insert(this).then((insertedItem){
+      BlocProvider.of<ItemBloc>(context).add(
+          ItemEvent.insert(insertedItem)
+      );
+    });
+  }
+
+  // handles removing the item from the Database and calling the Bloc event for
+  // removing an item from the ItemBloc
+  Future<void> removeFromDB(BuildContext context) async {
+    DatabaseProvider.db.remove(this.id).then((id){
+      BlocProvider.of<ItemBloc>(context).add(
+        ItemEvent.delete(this)
+      );
+    });
+  }
+
+  // handles updating the item in the Database and calling the Bloc event for
+  // updating an item in the ItemBloc
+  Future<void> updateInDB(BuildContext context) async {
+    DatabaseProvider.db.update(this).then((id){
+      BlocProvider.of<ItemBloc>(context).add(
+          ItemEvent.update(this)
+      );
+    });
   }
 }

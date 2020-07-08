@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/bloc/item_bloc.dart';
-import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/lang.dart';
-import 'package:organizer/db/database.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/style/designStyle.dart';
 
@@ -139,10 +135,7 @@ class _AddFormState extends State<AddForm> {
                           amountInStock: stock,
                           amountBase: base,
                         );
-                        DatabaseProvider.db.insert(item).then((item) {
-                          BlocProvider.of<ItemBloc>(context)
-                              .add(ItemEvent.insert(item));
-                        });
+                        item.insertToDB(context);
                         Navigator.pop(context);
                       },
                     ),

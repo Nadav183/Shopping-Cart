@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/bloc/item_bloc.dart';
-import 'package:organizer/events/item_event.dart';
 import 'package:organizer/style/lang.dart';
 
-import 'package:organizer/db/database.dart';
 import 'package:organizer/assets/item.dart';
 import 'package:organizer/style/designStyle.dart';
 
@@ -39,9 +35,7 @@ class _EditFormState extends State<EditForm> {
               FlatButton(
                 child: Text(genLang['yes'][lang]),
                 onPressed: () {
-                  DatabaseProvider.db.remove(widget.item.id);
-                  BlocProvider.of<ItemBloc>(context)
-                      .add(ItemEvent.delete(widget.item));
+                  widget.item.removeFromDB(context);
                   Navigator.of(context).pop(true);
                 },
               ),
@@ -177,10 +171,7 @@ class _EditFormState extends State<EditForm> {
                     return;
                   }
                   _formKey.currentState.save();
-                  DatabaseProvider.db.update(widget.item).then((t) {
-                    BlocProvider.of<ItemBloc>(context)
-                        .add(ItemEvent.update(widget.item));
-                  });
+                  widget.item.updateInDB(context);
                   Navigator.pop(context);
                 },
               ),
