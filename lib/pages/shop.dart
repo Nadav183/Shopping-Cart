@@ -19,7 +19,7 @@ class _ShopState extends State<Shop> {
       GlobalKey<RefreshIndicatorState>();
 
   Future<Null> _refresh() async {
-    DatabaseProvider.db.getItems().then(
+    DatabaseProvider.db.getShopItems().then(
       (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
@@ -29,7 +29,7 @@ class _ShopState extends State<Shop> {
   @override
   void initState() {
     super.initState();
-    DatabaseProvider.db.getItems().then(
+    DatabaseProvider.db.getShopItems().then(
       (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
@@ -68,15 +68,10 @@ class _ShopState extends State<Shop> {
                     );
                   }
                   i -= 1;
-                  final item = itemList[i];
-                  if (item.amountBase - item.amountInStock > 0) {
-                    return Card(
-                      key: Key('$i'),
-                      child: ShopExpansionTile(itemList[i]),
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
+                  return Card(
+                    key: Key('$i'),
+                    child: ShopExpansionTile(itemList[i]),
+                  );
                 }),
               ),
             );

@@ -78,7 +78,25 @@ class DatabaseProvider {
       COLUMN_PPU,
       COLUMN_BASE,
       COLUMN_STOCK,
-    ]);
+    ],);
+    List<Item> itemList = List<Item>();
+    items.forEach((curItem) {
+      Item item = Item.fromMap(curItem);
+      itemList.add(item);
+    });
+    return itemList;
+  }
+
+  Future<List<Item>> getShopItems() async {
+    final db = await database;
+
+    var items = await db.query(TABLE_GROCERIES, columns: [
+      COLUMN_ID,
+      COLUMN_NAME,
+      COLUMN_PPU,
+      COLUMN_BASE,
+      COLUMN_STOCK,
+    ], where: "$COLUMN_STOCK<$COLUMN_BASE");
     List<Item> itemList = List<Item>();
     items.forEach((curItem) {
       Item item = Item.fromMap(curItem);
