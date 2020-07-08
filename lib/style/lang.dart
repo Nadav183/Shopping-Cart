@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 var languages = ['HE','EN'];
@@ -181,7 +179,7 @@ var expLang = {
     'HE':'בעלות של'
   },
   'update_stock_question':{
-    'EN':'How many did you user?',
+    'EN':'How many did you use?',
     'HE':'בכמה השתמשת?'
   },
   'update_stock_helper':{
@@ -191,6 +189,22 @@ var expLang = {
   'stock':{
     'EN':'In Stock:',
     'HE':'במחסן:'
+  },
+  'bought':{
+    'EN':'Update List',
+    'HE':'עדכן רשימה'
+  },
+  'bought_question':{
+    'EN':'How many did buy?',
+    'HE':'כמה קנית?'
+  },
+  'used':{
+    'EN':'Update List',
+    'HE':'עדכן רשימה'
+  },
+  'used_question':{
+    'EN':'How many did you use?',
+    'HE':'בכמה השתמשת?'
   },
 };
 

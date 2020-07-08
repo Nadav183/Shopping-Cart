@@ -11,8 +11,75 @@ class IndexExpansionTile extends StatelessWidget {
 
   IndexExpansionTile(this.item);
 
-  markShoppingList(BuildContext context) {
+  markBought(BuildContext context) {
+    TextEditingController customController = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          customController.clear();
+          return AlertDialog(
+            title: Text(expLang['bought'][lang]),
+            content: TextField(
+              decoration: InputDecoration(
+                labelText: expLang['bought_question'][lang],
+              ),
+              controller: customController,
+              keyboardType: TextInputType.number,
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                child: Text(genLang['submit'][lang]),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(double.tryParse(customController.text));
+                },
+              ),
+              MaterialButton(
+                child: Text(genLang['cancel'][lang]),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
 
+  markUsed(BuildContext context) {
+    TextEditingController customController = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          customController.clear();
+          return AlertDialog(
+            title: Text(expLang['used'][lang]),
+            content: TextField(
+              decoration: InputDecoration(
+                labelText: expLang['used_question'][lang],
+              ),
+              controller: customController,
+              keyboardType: TextInputType.number,
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                child: Text(genLang['submit'][lang]),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(double.tryParse(customController.text));
+                },
+              ),
+              MaterialButton(
+                child: Text(genLang['cancel'][lang]),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  markShoppingList(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -51,18 +118,29 @@ class IndexExpansionTile extends StatelessWidget {
             icon: Icons.add,
             color: Colors.green,
             onTap: () {
-              item.amountInStock += 1;
-              item.updateInDB(context);
+              markBought(context).then((newStock) {
+                if (newStock == null) {
+                  newStock = 0;
+                }
+                item.amountInStock += newStock;
+                item.updateInDB(context);
+              });
             },
           ),
           IconSlideAction(
             icon: Icons.remove,
             color: Colors.red,
             onTap: () {
-              if (item.amountInStock > 0) {
-                item.amountInStock -= 1;
+              markUsed(context).then((used) {
+                if (used == null) {
+                  used = 0;
+                }
+                if (used > item.amountInStock){
+                  used = item.amountInStock;
+                }
+                item.amountInStock -= used;
                 item.updateInDB(context);
-              }
+              });
             },
           ),
         ],
@@ -78,18 +156,29 @@ class IndexExpansionTile extends StatelessWidget {
             icon: Icons.add,
             color: Colors.green,
             onTap: () {
-              item.amountInStock += 1;
-              item.updateInDB(context);
+              markBought(context).then((newStock) {
+                if (newStock == null) {
+                  newStock = 0;
+                }
+                item.amountInStock += newStock;
+                item.updateInDB(context);
+              });
             },
           ),
           IconSlideAction(
             icon: Icons.remove,
             color: Colors.red,
             onTap: () {
-              if (item.amountInStock > 0) {
-                item.amountInStock -= 1;
+              markUsed(context).then((used) {
+                if (used == null) {
+                  used = 0;
+                }
+                if (used > item.amountInStock){
+                  used = item.amountInStock;
+                }
+                item.amountInStock -= used;
                 item.updateInDB(context);
-              }
+              });
             },
           ),
         ],
@@ -99,14 +188,14 @@ class IndexExpansionTile extends StatelessWidget {
               Expanded(
                   child:
                       Text(item.name, textAlign: dirLang['tile_left'][lang])),
-              Text('${item.amountInStock}',
+              Text('${item.amountInStock.toStringAsFixed(2)}',
                   textAlign: dirLang['tile_right'][lang]),
             ],
           ),
           children: <Widget>[
             Text('${expLang['base'][lang]} ${item.amountBase}'),
             Text(
-                '${expLang['price1'][lang]} $required ${expLang['price2'][lang]} ${currency(totalPrice)}'),
+                '${expLang['price1'][lang]} ${required.toStringAsFixed(2)} ${expLang['price2'][lang]} ${currency(totalPrice)}'),
           ],
         ),
       ),
@@ -119,7 +208,6 @@ class ShopExpansionTile extends StatelessWidget {
 
   markShoppingList(BuildContext context) {
     TextEditingController customController = TextEditingController();
-
     return showDialog(
         context: context,
         builder: (context) {
@@ -132,16 +220,13 @@ class ShopExpansionTile extends StatelessWidget {
               ),
               controller: customController,
               keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                WhitelistingTextInputFormatter.digitsOnly
-              ],
             ),
             actions: <Widget>[
               MaterialButton(
                 child: Text(genLang['submit'][lang]),
                 onPressed: () {
                   Navigator.of(context)
-                      .pop(int.tryParse(customController.text));
+                      .pop(double.tryParse(customController.text));
                 },
               ),
               MaterialButton(
@@ -214,7 +299,7 @@ class ShopExpansionTile extends StatelessWidget {
                   child:
                       Text(item.name, textAlign: dirLang['tile_left'][lang])),
               Expanded(
-                  child: Text('${expLang['need'][lang]} $required',
+                  child: Text('${expLang['need'][lang]} ${required.toStringAsFixed(2)}',
                       textAlign: dirLang['tile_right'][lang])),
             ],
           ),

@@ -31,7 +31,7 @@ class DatabaseProvider {
     String dbPath = await getDatabasesPath();
     return await openDatabase(
       join(dbPath, 'groceriesDB.db'),
-      version: 1,
+      version: 2,
       onCreate: (Database database, int version) async {
         print("Creating food table");
         await database.execute(
@@ -39,12 +39,33 @@ class DatabaseProvider {
           "$COLUMN_ID INTEGER PRIMARY KEY,"
           "$COLUMN_NAME TEXT,"
           "$COLUMN_PPU REAL,"
-          "$COLUMN_BASE INTEGER,"
-          "$COLUMN_STOCK INTEGER"
+          "$COLUMN_BASE REAL,"
+          "$COLUMN_STOCK REAL"
           ")",
         );
       },
-      onUpgrade: (Database database, int oldVersion, int newVersion) async {},
+      onUpgrade: (Database database, int oldVersion, int newVersion) async {
+        if (oldVersion<2){
+          print('renaming table');
+          await database
+              .execute("ALTER TABLE $TABLE_GROCERIES RENAME TO _OLDTABLE");
+          print('creating new table');
+          await database.execute("CREATE TABLE $TABLE_GROCERIES ("
+              "$COLUMN_ID INTEGER PRIMARY KEY,"
+              "$COLUMN_NAME TEXT,"
+              "$COLUMN_PPU REAL,"
+              "$COLUMN_BASE REAL,"
+              "$COLUMN_STOCK REAL"
+              ")");
+          print('copying all items');
+          await database.execute(
+              "INSERT INTO $TABLE_GROCERIES($COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK) "
+                  "SELECT $COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK "
+                  "FROM _OLDTABLE"
+          );
+          print('done upgrading database');
+        }
+      },
     );
   }
 

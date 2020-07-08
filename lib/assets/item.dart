@@ -8,8 +8,8 @@ class Item {
   int id;
   String name;
   double pricePerUnit;
-  int amountInStock;
-  int amountBase;
+  double amountInStock;
+  double amountBase;
 
   Item(
       {this.id,

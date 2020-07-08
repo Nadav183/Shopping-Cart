@@ -104,48 +104,39 @@ class _EditFormState extends State<EditForm> {
             decoration: InputDecoration(
                 labelText: formLang['stock'][lang], hintText: '0'),
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
-            ],
             validator: (value) {
               if (value.isEmpty) {
                 // makes sure value not empty
                 return formLang['stock_val1'][lang];
               }
-              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                  .hasMatch(value)) {
-                //TODO: change this to tryParse
-                // makes sure the value fits a double regexp
+              if (double.tryParse(value) == null) {
+                // makes sure the value is a double
                 return formLang['stock_val2'][lang];
               }
               return null;
             },
             onSaved: ((value) {
-              widget.item.amountInStock = int.parse(value);
+              widget.item.amountInStock = double.parse(value);
             }),
           ),
           TextFormField(
             initialValue: '${widget.item.amountBase}',
             decoration: InputDecoration(labelText: formLang['base'][lang]),
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
-            ],
             validator: (value) {
               if (value.isEmpty) {
                 return formLang['base_val1'][lang];
               }
-              if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                  .hasMatch(value)) {
+              if (double.tryParse(value) == null) {
                 return formLang['base_val2'][lang];
               }
-              if (int.parse(value) <= 0) {
+              if (double.parse(value) <= 0) {
                 return formLang['base_val3'][lang];
               }
               return null;
             },
             onSaved: ((value) {
-              widget.item.amountBase = int.parse(value);
+              widget.item.amountBase = double.parse(value);
             }),
           ),
           // adds some space before the buttons

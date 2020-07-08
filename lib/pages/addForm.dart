@@ -17,8 +17,8 @@ class _AddFormState extends State<AddForm> {
   Widget build(BuildContext context) {
     String name;
     double ppu;
-    int base;
-    int stock;
+    double base;
+    double stock;
     //final halfMediaWidth = MediaQuery.of(context).size.width / 2.0;
     return Card(
       child: Container(
@@ -66,45 +66,37 @@ class _AddFormState extends State<AddForm> {
                   decoration: InputDecoration(
                       labelText: formLang['stock'][lang], hintText: '0'),
                   keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ],
                   validator: (value) {
                     if (value.isEmpty) {
                       return formLang['stock_val1'][lang];
                     }
-                    if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                        .hasMatch(value)) {
+                    if (double.tryParse(value) == null) {
                       return formLang['stock_val2'][lang];
                     }
                     return null;
                   },
                   onSaved: ((value) {
-                    stock = int.parse(value);
+                    stock = double.parse(value);
                   }),
                 ),
                 TextFormField(
                   decoration:
                       InputDecoration(labelText: formLang['base'][lang]),
                   keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
-                  ],
                   validator: (value) {
                     if (value.isEmpty) {
                       return formLang['base_val1'][lang];
                     }
-                    if (!RegExp(r'^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$')
-                        .hasMatch(value)) {
+                    if (double.tryParse(value) == null) {
                       return formLang['base_val2'][lang];
                     }
-                    if (int.parse(value) <= 0) {
+                    if (double.parse(value) <= 0) {
                       return formLang['base_val3'][lang];
                     }
                     return null;
                   },
                   onSaved: ((value) {
-                    base = int.parse(value);
+                    base = double.parse(value);
                   }),
                 ),
                 SizedBox(
