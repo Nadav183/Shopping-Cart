@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:organizer/style/lang.dart';
 
-import 'package:organizer/assets/item.dart';
-import 'package:organizer/style/designStyle.dart';
+import '../style/lang.dart';
+import '../assets/item.dart';
+import '../style/designStyle.dart';
 
 // a form for editing an instance of an item
 class EditForm extends StatefulWidget {

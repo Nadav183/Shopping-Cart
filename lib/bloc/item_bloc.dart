@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/assets/item.dart';
-import 'package:organizer/events/item_event.dart';
+
+import '../assets/item.dart';
+import '../events/item_event.dart';
 
 class ItemBloc extends Bloc<ItemEvent, List<Item>> {
   @override

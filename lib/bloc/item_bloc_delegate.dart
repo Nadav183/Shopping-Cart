@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/assets/item.dart';
-import 'package:organizer/assets/settings_class.dart';
+
+import '../assets/item.dart';
+import '../assets/settings_class.dart';
 
 class OrganizerBlocDelegate extends BlocDelegate {
   @override

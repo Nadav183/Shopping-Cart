@@ -1,4 +1,4 @@
-import 'package:organizer/assets/settings_class.dart';
+import '../assets/settings_class.dart';
 
 enum EventType { update, reset, get}
 

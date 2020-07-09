@@ -1,4 +1,4 @@
-import 'package:organizer/assets/item.dart';
+import '../assets/item.dart';
 
 enum EventType { insert, delete, setItems, update, reorder }
 

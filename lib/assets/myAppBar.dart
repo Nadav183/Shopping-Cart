@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/pages/settings.dart';
-import 'package:organizer/style/designStyle.dart';
+
+import '../pages/settings.dart';
+import '../style/designStyle.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String titleText;

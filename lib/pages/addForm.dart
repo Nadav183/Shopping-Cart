@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:organizer/style/lang.dart';
-import 'package:organizer/assets/item.dart';
-import 'package:organizer/style/designStyle.dart';
+
+import '../style/lang.dart';
+import '../assets/item.dart';
+import '../style/designStyle.dart';
 
 class AddForm extends StatefulWidget {
   @override

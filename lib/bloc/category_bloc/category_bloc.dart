@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/assets/category_class.dart';
-import 'package:organizer/events/category_event.dart';
+
+import '../../assets/category_class.dart';
+import '../../events/category_event.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, List<Category>> {
   @override

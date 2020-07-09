@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'package:organizer/assets/category_class.dart';
-import 'package:organizer/assets/item.dart';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../assets/category_class.dart';
+import '../assets/item.dart';
+
+
 
 class DatabaseProvider {
   static const String TABLE_GROCERIES = "groceries";

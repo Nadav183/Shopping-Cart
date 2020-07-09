@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/assets/expansionTiles.dart';
-import 'package:organizer/assets/item.dart';
-import 'package:organizer/bloc/item_bloc.dart';
-import 'package:organizer/bloc/settings_bloc/settings_bloc.dart';
-import 'package:organizer/db/database.dart';
-import 'package:organizer/db/preferencesDB.dart';
-import 'package:organizer/events/item_event.dart';
-import 'package:organizer/events/settings_event.dart';
-import 'package:organizer/style/lang.dart';
+
+import '../assets/expansionTiles.dart';
+import '../assets/item.dart';
+import '../bloc/item_bloc.dart';
+import '../bloc/settings_bloc/settings_bloc.dart';
+import '../db/database.dart';
+import '../db/preferencesDB.dart';
+import '../events/item_event.dart';
+import '../events/settings_event.dart';
+import '../style/lang.dart';
 
 class Index extends StatefulWidget {
   @override
