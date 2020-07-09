@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/style/designStyle.dart';
-import 'package:organizer/style/lang.dart';
-import 'package:organizer/pages/addForm.dart';
+
+import '../../style/designStyle.dart';
+import '../../style/lang.dart';
+import '../../pages/addForm.dart';
 
 class MyFloatingButton extends FloatingActionButton {
   Widget build(BuildContext context) {

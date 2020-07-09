@@ -10,13 +10,15 @@ class Item {
   double pricePerUnit;
   double amountInStock;
   double amountBase;
+  int categoryID;
 
   Item(
       {this.id,
       this.name,
       this.pricePerUnit,
       this.amountInStock = 0,
-      this.amountBase});
+      this.amountBase,
+      this.categoryID});
 
   ///maps the keys of the DB columns to the values of an Item
   ///If the id is null it will be automatically set on DB side as PK

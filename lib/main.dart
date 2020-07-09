@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/bloc/item_bloc_delegate.dart';
-import 'package:organizer/style/designStyle.dart';
-import 'package:organizer/style/lang.dart';
-import 'package:organizer/assets/myAppBar.dart';
-import 'package:organizer/assets/settings_class.dart';
-import 'package:organizer/bloc/item_bloc.dart';
-import 'package:organizer/bloc/settings_bloc/settings_bloc.dart';
-import 'package:organizer/pages/index.dart';
-import 'package:organizer/pages/shop.dart';
-import 'package:organizer/assets/drawer.dart';
-import 'package:organizer/assets/float.dart';
+
+import 'bloc/item_bloc_delegate.dart';
+import 'style/designStyle.dart';
+import 'style/lang.dart';
+import 'assets/myAppBar.dart';
+import 'assets/settings_class.dart';
+import 'bloc/item_bloc.dart';
+import 'bloc/settings_bloc/settings_bloc.dart';
+import 'pages/index.dart';
+import 'pages/shop.dart';
+import 'assets/drawer.dart';
+import 'assets/main_assets/float.dart';
 
 void main() {
   // deals with bloc events
