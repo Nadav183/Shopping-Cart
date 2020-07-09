@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../style/lang.dart';
-import '../style/designStyle.dart';
+import '../../style/lang.dart';
+import '../../style/designStyle.dart';
 
 Widget myDrawer(Function func, Map pages) {
   return Builder(builder: (context) {

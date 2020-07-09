@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/settings_bloc/settings_bloc.dart';
-import '../db/preferencesDB.dart';
-import '../events/settings_event.dart';
-import '../style/designStyle.dart';
-import '../style/lang.dart';
-import '../assets/settings_class.dart';
+import '../../bloc/settings_bloc/settings_bloc.dart';
+import '../../db/preferencesDB.dart';
+import '../../events/settings_event.dart';
+import '../../style/designStyle.dart';
+import '../../style/lang.dart';
+import '../../assets/objectClasses/settings_class.dart';
 
 class SettingsView extends StatefulWidget {
   _SettingsViewState createState() => _SettingsViewState();

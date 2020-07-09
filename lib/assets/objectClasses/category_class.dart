@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/category_bloc/category_bloc.dart';
-import '../db/database.dart';
-import '../events/category_event.dart';
+import '../../bloc/category_bloc/category_bloc.dart';
+import '../../db/database.dart';
+import '../../events/category_event.dart';
 
 class Category {
   int id;

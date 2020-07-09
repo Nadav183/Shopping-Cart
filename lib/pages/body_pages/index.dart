@@ -2,24 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../assets/expansionTiles.dart';
-import '../assets/item.dart';
-import '../bloc/item_bloc.dart';
-import '../bloc/settings_bloc/settings_bloc.dart';
-import '../db/database.dart';
-import '../db/preferencesDB.dart';
-import '../events/item_event.dart';
-import '../events/settings_event.dart';
-import '../style/lang.dart';
+import '../../assets/general_assets/expansionTiles.dart';
+import '../../assets/objectClasses/item.dart';
+import '../../bloc/item_bloc/item_bloc.dart';
+import '../../bloc/settings_bloc/settings_bloc.dart';
+import '../../db/database.dart';
+import '../../db/preferencesDB.dart';
+import '../../events/item_event.dart';
+import '../../events/settings_event.dart';
+import '../../style/lang.dart';
 
 class Index extends StatefulWidget {
   @override
   _IndexState createState() => _IndexState();
 }
 
-class _IndexState extends State<Index>{
-
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+class _IndexState extends State<Index> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   Future<Null> _refresh() async {
     DatabaseProvider.db.getItems().then(

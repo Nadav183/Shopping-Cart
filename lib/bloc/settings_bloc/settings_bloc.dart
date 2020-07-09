@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../assets/settings_class.dart';
+import '../../assets/objectClasses/settings_class.dart';
 import '../../events/settings_event.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, Settings> {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../assets/item.dart';
-import '../style/designStyle.dart';
-import '../style/lang.dart';
-import '../assets/editForm.dart';
+import '../objectClasses/item.dart';
+import '../../style/designStyle.dart';
+import '../../style/lang.dart';
+import 'editForm.dart';
 
 class IndexExpansionTile extends StatelessWidget {
   final Item item;

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../assets/expansionTiles.dart';
-import '../assets/item.dart';
-import '../bloc/item_bloc.dart';
-import '../db/database.dart';
-import '../events/item_event.dart';
-import '../style/lang.dart';
+import '../../assets/general_assets/expansionTiles.dart';
+import '../../assets/objectClasses/item.dart';
+import '../../bloc/item_bloc/item_bloc.dart';
+import '../../db/database.dart';
+import '../../events/item_event.dart';
+import '../../style/lang.dart';
 
 class ReStock extends StatefulWidget {
   @override

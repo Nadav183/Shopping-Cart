@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/item_bloc.dart';
-import '../db/database.dart';
-import '../events/item_event.dart';
+import '../../bloc/item_bloc/item_bloc.dart';
+import '../../db/database.dart';
+import '../../events/item_event.dart';
 
 class Item {
   int id;

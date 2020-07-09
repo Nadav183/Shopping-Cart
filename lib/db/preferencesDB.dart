@@ -1,15 +1,19 @@
-import 'package:organizer/assets/settings_class.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<Settings> getPreferences() async {
+import '../assets/objectClasses/settings_class.dart';
 
+Future<Settings> getPreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('getting preferences');
   var language = prefs.getString('language');
   var currency = prefs.getString('currency');
   var theme = prefs.getString('theme');
-  if (language == null){language = 'EN';}
-  if (currency == null){currency = 'ILS';}
+  if (language == null) {
+    language = 'EN';
+  }
+  if (currency == null) {
+    currency = 'ILS';
+  }
   if (theme == null){theme = 'default';}
 
   var settings = Settings(
