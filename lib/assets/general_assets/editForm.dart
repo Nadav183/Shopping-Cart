@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organizer/assets/objectClasses/category_class.dart';
+import 'package:organizer/bloc/category_bloc/category_bloc.dart';
 
 import '../../style/lang.dart';
 import '../objectClasses/item.dart';
@@ -55,6 +58,14 @@ class _EditFormState extends State<EditForm> {
 
   @override
   Widget build(BuildContext context) {
+    var categoryID = widget.item.categoryID;
+    List<Category> categoriesList =
+        BlocProvider.of<CategoryBloc>(context).state;
+    Category _chosenCategory;
+    if (categoryID != null) {
+      _chosenCategory = categoriesList
+          .singleWhere((element) => element.id == widget.item.categoryID);
+    }
     return Form(
       key: _formKey,
       autovalidate: _autovalidate,
@@ -139,6 +150,39 @@ class _EditFormState extends State<EditForm> {
               widget.item.amountBase = double.parse(value);
             }),
           ),
+          DropdownButtonFormField(
+            onChanged: (value) {
+              setState(() {
+                _chosenCategory = value;
+              });
+            },
+            onSaved: (value) {
+              setState(() {
+                _chosenCategory = value;
+                if (value == null) {
+                  widget.item.categoryID = null;
+                  widget.item.categoryName = 'No Category';
+                }
+                else {
+                  widget.item.categoryID = _chosenCategory.id;
+                  widget.item.categoryName = _chosenCategory.name;
+                }
+              });
+            },
+            items: [
+              DropdownMenuItem(
+                  child: Text('No Category'),
+                  value: null
+              ),
+              ...categoriesList.map((category) {
+                return DropdownMenuItem(
+                  child: Text(category.name),
+                  value: category,
+                );
+              }),
+            ],
+            value: _chosenCategory,
+          ),
           // adds some space before the buttons
           SizedBox(
             height: 20,
@@ -184,9 +228,9 @@ class _EditFormState extends State<EditForm> {
               text: TextSpan(children: [
                 WidgetSpan(
                     child: Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                )),
+                      Icons.delete,
+                      color: Colors.white,
+                    )),
                 TextSpan(
                     text: genLang['delete'][lang], style: text['buttonText'])
               ]),

@@ -3,11 +3,11 @@ import 'package:intl/intl.dart';
 
 //called as - style: text[type]
 
-var themes = ['default','alt'];
-var currencies = ['ILS','USD','GBP','JPY'];
+var themes = ['default', 'alt'];
+var currencies = ['ILS', 'USD', 'GBP', 'JPY'];
 
 var curTheme = 'alt';
-
+var showControl = false;
 var currentCurrency = 'ILS';
 
 var text = {

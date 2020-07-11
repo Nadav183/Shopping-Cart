@@ -60,14 +60,9 @@ var genLang = {
 };
 
 var mainLang = {
-  'index':{
-    'EN':'Inventory',
-    'HE':'מחסן'
-  },
-  'shop':{
-    'EN':'Shopping Cart',
-    'HE':'עגלת קניות'
-  },
+  'index': {'EN': 'Inventory', 'HE': 'מחסן'},
+  'shop': {'EN': 'Shopping Cart', 'HE': 'עגלת קניות'},
+  'categories': {'EN': 'Categories', 'HE': 'קטגוריות'},
 };
 
 var drawerLang = {
@@ -288,14 +283,17 @@ var setLang = {
   },
   'JPY':{
     'EN':'Japanese Yen',
-    'HE':'ין'
-  },
-
+    'HE':'ין'},
 };
 
 var restLang = {
-  'empty':{
-    'EN':'Empty',
-    'HE':'רוקן'
-  }
+  'empty': {'EN': 'Empty', 'HE': 'רוקן'}
+};
+
+var catLang = {
+  'new_category': {'EN': 'Add Category', 'HE': 'הוסף קטגוריה'},
+  'new_category_question': {
+    'EN': 'What is the name of your category?',
+    'HE': 'מה שם הקטגוריה?'
+  },
 };

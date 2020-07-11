@@ -14,9 +14,10 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  var _langControl = lang;
-  var _themeControl = curTheme;
-  var _currencyControl = currentCurrency;
+  String _langControl = lang;
+  String _themeControl = curTheme;
+  String _currencyControl = currentCurrency;
+  bool _showControl = showControl;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,15 @@ class _SettingsViewState extends State<SettingsView> {
                   ],
                 ),
               ),
+              SwitchListTile(
+                title: Text('Show Uncategorized items in shopping cart?'),
+                value: _showControl,
+                onChanged: (value) {
+                  setState(() {
+                    _showControl = value;
+                  });
+                },
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                 child: Row(
@@ -111,6 +121,7 @@ class _SettingsViewState extends State<SettingsView> {
                           theme: _themeControl,
                           language: _langControl,
                           currency: _currencyControl,
+                          showUnCategorized: _showControl,
                         );
                         setPreferences(newSettings);
                         BlocProvider.of<SettingsBloc>(context)

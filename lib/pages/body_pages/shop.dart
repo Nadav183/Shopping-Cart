@@ -20,7 +20,7 @@ class _ShopState extends State<Shop> {
       GlobalKey<RefreshIndicatorState>();
 
   Future<Null> _refresh() async {
-    DatabaseProvider.db.getShopItems().then(
+    DatabaseProvider.db.getItems().then(
       (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
@@ -30,8 +30,8 @@ class _ShopState extends State<Shop> {
   @override
   void initState() {
     super.initState();
-    DatabaseProvider.db.getShopItems().then(
-      (itemList) {
+    DatabaseProvider.db.getItems().then(
+          (itemList) {
         BlocProvider.of<ItemBloc>(context).add(ItemEvent.setItems(itemList));
       },
     );
@@ -46,35 +46,38 @@ class _ShopState extends State<Shop> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: BlocConsumer<ItemBloc, List<Item>>(
-          buildWhen: (List<Item> previous, List<Item> current) {
-            return true;
-          },
-          listenWhen: (List<Item> previous, List<Item> current) {
-            if ((current.length != previous.length) && (previous.length != 0)) {
-              return true;
-            }
-            return true;
-          },
           builder: (context, itemList) {
+            cartPrice = 0;
+            itemList.forEach((item) {
+              var offset = item.amountBase - item.amountInStock;
+              if (offset > 0) {
+                cartPrice += offset * item.pricePerUnit;
+              }
+            });
             return Container(
               child: ListView(
-                padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
-                scrollDirection: Axis.vertical,
-                children: List.generate(itemList.length + 1, (i) {
-                  if (i == 0) {
-                    return Text(
+                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 55),
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    Text(
                       '${shopLang['price'][lang]} ${currency(cartPrice)}',
                       style: text['cart'],
                       textAlign: TextAlign.center,
-                    );
-                  }
-                  i -= 1;
-                  return Card(
-                    key: Key('$i'),
-                    child: ShopExpansionTile(itemList[i]),
-                  );
-                }),
-              ),
+                    ),
+                    ...List.generate(itemList.length, (i) {
+                      var offset = itemList[i].amountBase -
+                          itemList[i].amountInStock;
+                      if (offset > 0) {
+                        return Card(
+                          key: Key('$i'),
+                          child: ShopExpansionTile(itemList[i]),
+                        );
+                      }
+                      else {
+                        return SizedBox.shrink();
+                      }
+                    }),
+                  ]),
             );
           },
           listener: (BuildContext context, itemList) {

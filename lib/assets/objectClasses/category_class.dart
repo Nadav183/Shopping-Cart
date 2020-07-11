@@ -9,6 +9,8 @@ class Category {
   int id;
   String name;
 
+  Category({this.id, this.name});
+
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       DatabaseProvider.COLUMN_CATEGORYNAME: name,

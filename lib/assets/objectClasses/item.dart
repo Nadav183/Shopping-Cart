@@ -12,6 +12,7 @@ class Item {
   double amountInStock;
   double amountBase;
   int categoryID;
+  String categoryName;
 
   Item(
       {this.id,
@@ -19,7 +20,8 @@ class Item {
       this.pricePerUnit,
       this.amountInStock = 0,
       this.amountBase,
-      this.categoryID});
+      this.categoryID,
+      this.categoryName});
 
   ///maps the keys of the DB columns to the values of an Item
   ///If the id is null it will be automatically set on DB side as PK
@@ -33,6 +35,9 @@ class Item {
     if (id != null) {
       map[DatabaseProvider.COLUMN_ID] = id;
     }
+    if (categoryID != null) {
+      map[DatabaseProvider.COLUMN_CATEGORYID] = categoryID;
+    }
     return map;
   }
 
@@ -43,6 +48,9 @@ class Item {
     pricePerUnit = map[DatabaseProvider.COLUMN_PPU];
     amountInStock = map[DatabaseProvider.COLUMN_STOCK];
     amountBase = map[DatabaseProvider.COLUMN_BASE];
+    if (map[DatabaseProvider.COLUMN_CATEGORYID] != null) {
+      categoryID = map[DatabaseProvider.COLUMN_CATEGORYID];
+    }
   }
 
   // handles inserting the item to the Database and calling the Bloc event for

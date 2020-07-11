@@ -197,6 +197,7 @@ class IndexExpansionTile extends StatelessWidget {
             Text('${expLang['base'][lang]} ${item.amountBase}'),
             Text(
                 '${expLang['price1'][lang]} ${required.toStringAsFixed(2)} ${expLang['price2'][lang]} ${currency(totalPrice)}'),
+            Text('Category = ${item.categoryName}'),
           ],
         ),
       ),

@@ -23,8 +23,17 @@ class MyFloatingButton extends FloatingActionButton {
       tooltip: fltLang['add_tltp'][lang],
       backgroundColor: Colors.green,
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddForm()));
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                //TODO: Change the title to create
+                title: Text('${genLang['edit'][lang]}'),
+                content: Wrap(
+                  children: <Widget>[AddForm()],
+                ),
+              );
+            });
       },
     );
   }

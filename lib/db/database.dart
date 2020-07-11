@@ -5,6 +5,8 @@ import 'package:path/path.dart';
 import '../assets/objectClasses/category_class.dart';
 import '../assets/objectClasses/item.dart';
 
+int noCategoryID;
+
 class DatabaseProvider {
   static const String TABLE_GROCERIES = "groceries";
   static const String COLUMN_ID = "id";
@@ -36,9 +38,20 @@ class DatabaseProvider {
     String dbPath = await getDatabasesPath();
     return await openDatabase(
       join(dbPath, 'groceriesDB.db'),
-      version: 2,
+      version: 7,
+      onConfigure: (Database database) async {
+        await database.execute('PRAGMA foreign_keys = ON');
+      },
       onCreate: (Database database, int version) async {
-        print("Creating food table");
+        await database.execute(
+          "CREATE TABLE $TABLE_CATEGORIES ("
+          "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
+          "$COLUMN_CATEGORYNAME TEXT"
+          ")",
+        );
+        noCategoryID = await database.insert(
+            TABLE_CATEGORIES, Category(name: 'No Category').toMap());
+        print("Creating items table");
         await database.execute(
           "CREATE TABLE $TABLE_GROCERIES ("
           "$COLUMN_ID INTEGER PRIMARY KEY,"
@@ -46,15 +59,11 @@ class DatabaseProvider {
           "$COLUMN_PPU REAL,"
           "$COLUMN_BASE REAL,"
           "$COLUMN_STOCK REAL,"
-          "$COLUMN_CATEGORYID INTEGER"
+          "$COLUMN_CATEGORYID INTEGER,"
+          "FOREIGN KEY($COLUMN_CATEGORYID) REFERENCES $TABLE_CATEGORIES($COLUMN_CATEGORYID) ON DELETE SET NULL"
           ")",
         );
-        await database.execute(
-          "CREATE TABLE $TABLE_CATEGORIES ("
-          "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
-          "$COLUMN_CATEGORYNAME TEXT"
-          ")",
-        );
+
       },
       onUpgrade: (Database database, int oldVersion, int newVersion) async {
         if (oldVersion < 2) {
@@ -80,15 +89,90 @@ class DatabaseProvider {
           print('creating categories table');
           await database.execute(
             "CREATE TABLE $TABLE_CATEGORIES ("
-            "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
-            "$COLUMN_CATEGORYNAME TEXT"
-            ")",
+                "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
+                "$COLUMN_CATEGORYNAME TEXT"
+                ")",
           );
           print('adding new categoryID column');
           await database.execute(
-            "ALTER TABLE $TABLE_GROCERIES ADD $COLUMN_CATEGORYID INTEGER"
-          );
+              "ALTER TABLE $TABLE_GROCERIES ADD $COLUMN_CATEGORYID INTEGER");
           print('finished updating to version 3');
+        }
+        if (oldVersion < 4) {
+          print('renaming table');
+          await database.execute(
+              "ALTER TABLE $TABLE_GROCERIES RENAME TO _OLDTABLE_$newVersion");
+          print('creating new table');
+          await database.execute(
+            "CREATE TABLE $TABLE_GROCERIES ("
+                "$COLUMN_ID INTEGER PRIMARY KEY,"
+                "$COLUMN_NAME TEXT,"
+                "$COLUMN_PPU REAL,"
+                "$COLUMN_BASE REAL,"
+                "$COLUMN_STOCK REAL,"
+                "$COLUMN_CATEGORYID INTEGER,"
+                "FOREIGN KEY($COLUMN_CATEGORYID) REFERENCES $TABLE_CATEGORIES($COLUMN_CATEGORYID)"
+                ")",
+          );
+          print('copying all items');
+          await database.execute(
+              "INSERT INTO $TABLE_GROCERIES($COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK) "
+                  "SELECT $COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK "
+                  "FROM _OLDTABLE_$newVersion");
+          print('done upgrading database');
+        }
+        if (oldVersion < 5) {
+          noCategoryID = await database.insert(
+              TABLE_CATEGORIES, Category(name: 'No Category').toMap());
+        }
+        if (oldVersion < 6) {
+          print('setting default item');
+          noCategoryID = await database.insert(
+              TABLE_CATEGORIES, Category(name: 'No Category').toMap());
+          print('renaming table');
+          await database.execute(
+              "ALTER TABLE $TABLE_GROCERIES RENAME TO _OLDTABLE_$newVersion");
+          print('creating new table, baseID:$noCategoryID');
+          await database.execute(
+            "CREATE TABLE $TABLE_GROCERIES ("
+                "$COLUMN_ID INTEGER PRIMARY KEY,"
+                "$COLUMN_NAME TEXT,"
+                "$COLUMN_PPU REAL,"
+                "$COLUMN_BASE REAL,"
+                "$COLUMN_STOCK REAL,"
+                "$COLUMN_CATEGORYID INTEGER DEFAULT $noCategoryID,"
+                "FOREIGN KEY($COLUMN_CATEGORYID) REFERENCES $TABLE_CATEGORIES($COLUMN_CATEGORYID) ON DELETE SET DEFAULT"
+                ")",
+          );
+          print('copying all items');
+          await database.execute(
+              "INSERT INTO $TABLE_GROCERIES($COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK) "
+                  "SELECT $COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK "
+                  "FROM _OLDTABLE_$newVersion");
+          print('done upgrading database');
+        }
+        if (oldVersion < 7) {
+          print('renaming table');
+          await database.execute(
+              "ALTER TABLE $TABLE_GROCERIES RENAME TO _OLDTABLE_$newVersion");
+          print('creating new table');
+          await database.execute(
+            "CREATE TABLE $TABLE_GROCERIES ("
+                "$COLUMN_ID INTEGER PRIMARY KEY,"
+                "$COLUMN_NAME TEXT,"
+                "$COLUMN_PPU REAL,"
+                "$COLUMN_BASE REAL,"
+                "$COLUMN_STOCK REAL,"
+                "$COLUMN_CATEGORYID INTEGER,"
+                "FOREIGN KEY($COLUMN_CATEGORYID) REFERENCES $TABLE_CATEGORIES($COLUMN_CATEGORYID) ON DELETE SET NULL"
+                ")",
+          );
+          print('copying all items');
+          await database.execute(
+              "INSERT INTO $TABLE_GROCERIES($COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK) "
+                  "SELECT $COLUMN_NAME, $COLUMN_PPU, $COLUMN_BASE, $COLUMN_STOCK "
+                  "FROM _OLDTABLE_$newVersion");
+          print('done upgrading database');
         }
       },
     );
@@ -105,6 +189,7 @@ class DatabaseProvider {
         COLUMN_PPU,
         COLUMN_BASE,
         COLUMN_STOCK,
+        COLUMN_CATEGORYID,
       ],
     );
     List<Item> itemList = List<Item>();
@@ -125,6 +210,7 @@ class DatabaseProvider {
           COLUMN_PPU,
           COLUMN_BASE,
           COLUMN_STOCK,
+          COLUMN_CATEGORYID,
         ],
         where: "$COLUMN_STOCK<$COLUMN_BASE");
     List<Item> itemList = List<Item>();
@@ -162,9 +248,24 @@ class DatabaseProvider {
     );
   }
 
-  Future<List<Category>>getCategories() async {
+  Future<String> getCategoryByID(int id) async {
     final db = await database;
+    var categoryMap = await db.query(
+        TABLE_CATEGORIES,
+        columns: [
+          COLUMN_CATEGORYID,
+          COLUMN_CATEGORYNAME,
+        ],
+        where: "$COLUMN_CATEGORYID = ?",
+        whereArgs: [id]
+    );
+    var category = Category.fromMap(categoryMap[0]);
 
+    return category.name;
+  }
+
+  Future<List<Category>> getCategories() async {
+    final db = await database;
     var categories = await db.query(
       TABLE_CATEGORIES,
       columns: [
@@ -192,7 +293,8 @@ class DatabaseProvider {
 
   Future<int> removeCategory(int id) async {
     final db = await database;
-    return await db.delete(TABLE_GROCERIES, where: "id = ?", whereArgs: [id]);
+    return await db.delete(TABLE_CATEGORIES,
+        where: "$COLUMN_CATEGORYID = ?", whereArgs: [id]);
   }
 
   Future<int> updateCategory(Category category) async {
@@ -200,7 +302,7 @@ class DatabaseProvider {
     return await db.update(
       TABLE_CATEGORIES,
       category.toMap(),
-      where: "id = ?",
+      where: "$COLUMN_CATEGORYID = ?",
       whereArgs: [category.id],
     );
   }
