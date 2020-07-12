@@ -18,6 +18,7 @@ class DatabaseProvider {
   static const String TABLE_CATEGORIES = "categories";
   static const String COLUMN_CATEGORYID = "categoryID";
   static const String COLUMN_CATEGORYNAME = "categoryName";
+  static const String COLUMN_DISPLAY = "display";
 
   DatabaseProvider._();
 
@@ -38,7 +39,7 @@ class DatabaseProvider {
     String dbPath = await getDatabasesPath();
     return await openDatabase(
       join(dbPath, 'groceriesDB.db'),
-      version: 7,
+      version: 8,
       onConfigure: (Database database) async {
         await database.execute('PRAGMA foreign_keys = ON');
       },
@@ -46,11 +47,10 @@ class DatabaseProvider {
         await database.execute(
           "CREATE TABLE $TABLE_CATEGORIES ("
           "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
-          "$COLUMN_CATEGORYNAME TEXT"
+          "$COLUMN_CATEGORYNAME TEXT,"
+          "$COLUMN_DISPLAY INTEGER DEFAULT 1"
           ")",
         );
-        noCategoryID = await database.insert(
-            TABLE_CATEGORIES, Category(name: 'No Category').toMap());
         print("Creating items table");
         await database.execute(
           "CREATE TABLE $TABLE_GROCERIES ("
@@ -63,7 +63,6 @@ class DatabaseProvider {
           "FOREIGN KEY($COLUMN_CATEGORYID) REFERENCES $TABLE_CATEGORIES($COLUMN_CATEGORYID) ON DELETE SET NULL"
           ")",
         );
-
       },
       onUpgrade: (Database database, int oldVersion, int newVersion) async {
         if (oldVersion < 2) {
@@ -174,6 +173,25 @@ class DatabaseProvider {
                   "FROM _OLDTABLE_$newVersion");
           print('done upgrading database');
         }
+        if (oldVersion < 8) {
+          print('renaming categories table');
+          await database.execute(
+              "ALTER TABLE $TABLE_CATEGORIES RENAME TO _OLD_CATEGORIES_$newVersion");
+          print('createing new table');
+          await database.execute(
+            "CREATE TABLE $TABLE_CATEGORIES ("
+                "$COLUMN_CATEGORYID INTEGER PRIMARY KEY,"
+                "$COLUMN_CATEGORYNAME TEXT,"
+                "$COLUMN_DISPLAY INTEGER DEFAULT 1"
+                ")",
+          );
+          print('copying items');
+          await database.execute(
+              "INSERT INTO $TABLE_CATEGORIES($COLUMN_CATEGORYID,$COLUMN_CATEGORYNAME) "
+                  "SELECT $COLUMN_CATEGORYNAME, $COLUMN_CATEGORYID "
+                  "FROM _OLD_CATEGORIES_$newVersion");
+          print('done upgrading');
+        }
       },
     );
   }
@@ -250,15 +268,14 @@ class DatabaseProvider {
 
   Future<String> getCategoryByID(int id) async {
     final db = await database;
-    var categoryMap = await db.query(
-        TABLE_CATEGORIES,
+    var categoryMap = await db.query(TABLE_CATEGORIES,
         columns: [
           COLUMN_CATEGORYID,
           COLUMN_CATEGORYNAME,
+          COLUMN_DISPLAY,
         ],
         where: "$COLUMN_CATEGORYID = ?",
-        whereArgs: [id]
-    );
+        whereArgs: [id]);
     var category = Category.fromMap(categoryMap[0]);
 
     return category.name;
@@ -271,6 +288,7 @@ class DatabaseProvider {
       columns: [
         COLUMN_CATEGORYID,
         COLUMN_CATEGORYNAME,
+        COLUMN_DISPLAY,
       ],
     );
 
@@ -287,7 +305,8 @@ class DatabaseProvider {
     category.id = await db.insert(TABLE_CATEGORIES, category.toMap());
     print('Inserting new item:\n'
         'name: ${category.name}\n'
-        'id: ${category.id}\n');
+        'id: ${category.id}\n'
+        'display: ${category.display}');
     return category;
   }
 

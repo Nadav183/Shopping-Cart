@@ -118,21 +118,31 @@ class _ShopState extends State<Shop> {
             return BlocConsumer<ItemBloc, List<Item>>(
               builder: (context, itemList) {
                 double cartPrice = 0;
-                itemList.forEach((item) {
-                  var offset = item.amountBase - item.amountInStock;
-                  if (item.categoryID == null) {
-                    if (showControl) {
-                      cartPrice += offset * item.pricePerUnit;
-                    }
-                  } else if (offset > 0) {
-                    cartPrice += offset * item.pricePerUnit;
-                  }
-                });
                 var nullList = itemList
                     .where((element) => element.categoryID == null)
                     .toList();
-                var offsetNulls = nullList.where(
-                    (element) => element.amountBase > element.amountInStock);
+                var offsetNulls = nullList
+                    .where(
+                        (element) => element.amountBase > element.amountInStock)
+                    .toList();
+                if (showControl) {
+                  offsetNulls.forEach((item) {
+                    var offset = item.amountBase - item.amountInStock;
+                    cartPrice += offset * item.pricePerUnit;
+                  });
+                }
+                itemList.forEach((item) {
+                  if (item.categoryID != null) {
+                    if (categoryList
+                        .singleWhere((element) => element.id == item.categoryID)
+                        .display) {
+                      var offset = item.amountBase - item.amountInStock;
+                      if (offset > 0) {
+                        cartPrice += offset * item.pricePerUnit;
+                      }
+                    }
+                  }
+                });
                 Widget showUnCategorizedItems() {
                   if (showControl && offsetNulls.length > 0) {
                     return Card(
@@ -146,18 +156,12 @@ class _ShopState extends State<Shop> {
                             Text('${offsetNulls.length}/${nullList.length}')
                           ],
                         ),
-                        children: List.generate(nullList.length, (i) {
-                          var offset = nullList[i].amountBase -
-                              nullList[i].amountInStock;
-                          if (offset > 0) {
-                            return Card(
-                              color: Colors.white,
-                              key: Key('$i'),
-                              child: ShopExpansionTile(nullList[i]),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
+                        children: List.generate(offsetNulls.length, (i) {
+                          return Card(
+                            color: Colors.white,
+                            key: Key('$i'),
+                            child: ShopExpansionTile(offsetNulls[i]),
+                          );
                         }),
                       ),
                     );
@@ -183,33 +187,29 @@ class _ShopState extends State<Shop> {
                           .where((element) => element.categoryID == category.id)
                           .toList();
                       var offsetItems = categoryItems.where((element) =>
-                          element.amountBase > element.amountInStock);
-                      if (offsetItems.length == 0) {
+                      element.amountBase > element.amountInStock).toList();
+                      if (offsetItems.length == 0 || category.display ==
+                          false) {
                         return SizedBox.shrink();
                       } else {
                         return Card(
                           child: ExpansionTile(
                             childrenPadding:
-                                EdgeInsets.symmetric(horizontal: 5),
+                            EdgeInsets.symmetric(horizontal: 5),
                             title: Row(
                               children: [
                                 Text('${category.name}'),
                                 Spacer(),
                                 Text(
-                                    '${offsetItems.length}/${categoryItems.length}')
+                                    '${offsetItems.length}/${categoryItems
+                                        .length}')
                               ],
                             ),
-                            children: List.generate(categoryItems.length, (i) {
-                              var offset = categoryItems[i].amountBase -
-                                  categoryItems[i].amountInStock;
-                              if (offset > 0) {
-                                return Card(
-                                  key: Key('$i'),
-                                  child: ShopExpansionTile(categoryItems[i]),
-                                );
-                              } else {
-                                return SizedBox.shrink();
-                              }
+                            children: List.generate(offsetItems.length, (i) {
+                              return Card(
+                                key: Key('$i'),
+                                child: ShopExpansionTile(offsetItems[i]),
+                              );
                             }),
                           ),
                         );

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:organizer/assets/general_assets/categoryForm.dart';
+import 'package:organizer/assets/general_assets/editCategoryForm.dart';
 import 'package:organizer/assets/general_assets/expansionTiles.dart';
 import 'package:organizer/assets/objectClasses/item.dart';
 import 'package:organizer/bloc/item_bloc/item_bloc.dart';
@@ -65,34 +67,36 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   newCategory(BuildContext context) {
     TextEditingController customController = TextEditingController();
+
     return showDialog(
         context: context,
         builder: (context) {
           customController.clear();
           return AlertDialog(
             title: Text(catLang['new_category'][lang]),
-            content: TextField(
-              decoration: InputDecoration(
-                labelText: catLang['new_category_question'][lang],
-              ),
-              controller: customController,
+            content: Wrap(
+              children: [CategoryForm()],
             ),
-            actions: <Widget>[
-              MaterialButton(
-                child: Text(genLang['submit'][lang]),
-                onPressed: () {
-                  Navigator.of(context).pop(customController.text);
-                },
-              ),
-              MaterialButton(
-                child: Text(genLang['cancel'][lang]),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
           );
         });
+  }
+
+  editCategory(BuildContext context, Category category) {
+    TextEditingController customController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          customController.clear();
+          return AlertDialog(
+            title: Text(catLang['new_category'][lang]),
+            content: Wrap(
+              children: [EditCategoryForm(category)],
+            ),
+          );
+        }).then((val) {
+      return _gatherBlocs();
+    });
   }
 
   @override
@@ -112,7 +116,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             if ((current != previous) && (previous.length != 0)) {
               return true;
             }
-            return false;
+            return true;
           },
           builder: (context, categoryList) {
             return BlocConsumer<ItemBloc, List<Item>>(
@@ -128,8 +132,10 @@ class _CategoriesViewState extends State<CategoriesView> {
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        newCategory(context).then((name) {
-                          Category(name: name).insertToDB(context);
+                        newCategory(context).then((category) {
+                          if (category != null) {
+                            category.insertToDB(context);
+                          }
                         });
                       },
                       child: Text('make category'),
@@ -145,15 +151,22 @@ class _CategoriesViewState extends State<CategoriesView> {
                           child: Slidable(
                             key: Key('$i'),
                             actionPane: SlidableScrollActionPane(),
-                            actionExtentRatio: 0.25,
+                            actionExtentRatio: 0.15,
                             actions: <Widget>[
+                              Switch(
+                                onChanged: (value) {
+                                  category.display = value;
+                                  category.updateInDB(context);
+                                },
+                                value: category.display,
+                              ),
                               IconSlideAction(
-                                caption: 'delete',
-                                icon: Icons.delete_outline,
-                                color: Colors.red,
+                                caption: 'edit',
+                                icon: Icons.edit,
+                                color: Colors.blue,
                                 onTap: () {
-                                  category.removeFromDB(context);
-                                  _gatherBlocs();
+                                  editCategory(context, category);
+                                  //_gatherBlocs();
                                 },
                               ),
                             ],

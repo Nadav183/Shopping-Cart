@@ -8,12 +8,14 @@ import '../../events/category_event.dart';
 class Category {
   int id;
   String name;
+  bool display;
 
-  Category({this.id, this.name});
+  Category({this.id, this.name, this.display = true});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       DatabaseProvider.COLUMN_CATEGORYNAME: name,
+      DatabaseProvider.COLUMN_DISPLAY: display ? 1 : 0
     };
     if (id != null) {
       map[DatabaseProvider.COLUMN_CATEGORYID] = id;
@@ -25,15 +27,18 @@ class Category {
   Category.fromMap(Map<String, dynamic> map) {
     id = map[DatabaseProvider.COLUMN_CATEGORYID];
     name = map[DatabaseProvider.COLUMN_CATEGORYNAME];
+    display = (map[DatabaseProvider.COLUMN_DISPLAY] == 1);
   }
 
   // handles inserting the item to the Database and calling the Bloc event for
   // inserting an item to the ItemBloc
   Future<void> insertToDB(BuildContext context) async {
-    DatabaseProvider.db.insertCategory(this).then((insertedCategory){
-      BlocProvider.of<CategoryBloc>(context).add(
-          CategoryEvent.insert(insertedCategory)
-      );
+    print('inserting');
+    print('name: ${this.name}');
+    print('display: ${this.display}');
+    DatabaseProvider.db.insertCategory(this).then((insertedCategory) {
+      BlocProvider.of<CategoryBloc>(context)
+          .add(CategoryEvent.insert(insertedCategory));
     });
   }
 
