@@ -36,6 +36,7 @@ class _CategoryFormState extends State<CategoryForm> {
             }),
           ),
           SwitchListTile(
+            //TODO: Formlang
             title: Text('Display in Shopping Cart?'),
             value: _display,
             onChanged: (value) {
@@ -55,7 +56,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   genLang['save'][lang],
                   style: text['buttonText'],
                 ),
-                color: Colors.green,
+                color: colors['saveButton'],
                 onPressed: () {
                   if (!_formKey.currentState.validate()) {
                     if (_autovalidate == false) {
@@ -82,7 +83,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   genLang['cancel'][lang],
                   style: text['buttonText'],
                 ),
-                color: Colors.blue,
+                color: colors['cancelButton'],
                 onPressed: () {
                   Navigator.pop(context);
                 },

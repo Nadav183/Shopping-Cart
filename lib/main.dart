@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'assets/main_assets/bottom_bar.dart';
 import 'bloc/bloc_delegate.dart';
 import 'bloc/category_bloc/category_bloc.dart';
 import 'pages/body_pages/categories.dart';
@@ -36,9 +37,10 @@ class _MyAppState extends State<MyApp> {
     'categories': [
       CategoriesView(),
       mainLang['index'][lang],
-      Icon(Icons.view_list)
+      Icon(Icons.view_list),
+      0
     ],
-    'shop': [Shop(), mainLang['shop'][lang], Icon(Icons.shopping_basket)],
+    'shop': [Shop(), mainLang['shop'][lang], Icon(Icons.shopping_basket), 1],
   };
 
   // refreshes the body page, just redefine the bodyPage variable as itself after a language change
@@ -66,51 +68,34 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-      create: (context) => SettingsBloc(),
-      child: BlocProvider<CategoryBloc>(
-        create: (context) => CategoryBloc(),
-        child: BlocProvider<ItemBloc>(
-          create: (context) => ItemBloc(),
-          child: BlocConsumer<SettingsBloc, Settings>(
-            buildWhen: (Settings previous, Settings current) {
-              // build when settings are changed
-              if (previous != current) {
-                print('built');
-                return true;
-              } else
-                return false;
-            },
-            listenWhen: (Settings previous, Settings current) {
-              // listens for a settings change
-              if (previous != current) {
-                return true;
-              } else
-                return false;
-            },
-            builder: (context, settings) {
-              // sets the lang, theme and currency to be taken from the bloc
-              lang = settings.language; // from lang.dart
-              curTheme = settings.theme; // from designStyle.dart
-              currentCurrency = settings.currency; // from designStyle.dart
-              showControl = settings.showUnCategorized;
-              resetPage();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SettingsBloc>(create: (context) => SettingsBloc()),
+        BlocProvider<CategoryBloc>(create: (context) => CategoryBloc()),
+        BlocProvider<ItemBloc>(create: (context) => ItemBloc()),
+      ],
+      child: BlocBuilder<SettingsBloc, Settings>(
+        builder: (context, settings) {
+          // sets the lang, theme and currency to be taken from the bloc
+          lang = settings.language; // from lang.dart
+          curTheme = settings.theme; // from designStyle.dart
+          currentCurrency = settings.currency; // from designStyle.dart
+          showControl = settings.showUnCategorized;
+          resetPage();
 
-              return MaterialApp(
-                home: Directionality(
-                  textDirection: dirLang['genDir'][lang],
-                  child: Scaffold(
-                    appBar: MyAppBar(bodyPage[curPage][1]),
-                    body: (bodyPage[curPage][0]),
-                    drawer: myDrawer(_changePage, bodyPage),
-                    floatingActionButton: MyFloatingButton(),
-                  ),
-                ),
-              );
-            },
-            listener: (BuildContext context, Settings state) {},
-          ),
-        ),
+          return MaterialApp(
+            home: Directionality(
+              textDirection: dirLang['genDir'][lang],
+              child: Scaffold(
+                appBar: MyAppBar(bodyPage[curPage][1]),
+                body: (bodyPage[curPage][0]),
+                drawer: myDrawer(_changePage, bodyPage),
+                floatingActionButton: MySpeedDial(),
+                bottomNavigationBar: MyBottomBar(bodyPage, _changePage),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

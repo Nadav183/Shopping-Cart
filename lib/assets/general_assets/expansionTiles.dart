@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:organizer/assets/general_assets/updateDialog.dart';
 
 import '../objectClasses/item.dart';
 import '../../style/designStyle.dart';
@@ -84,12 +85,7 @@ class IndexExpansionTile extends StatelessWidget {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('${genLang['edit'][lang]} ${item.name}'),
-            content: Wrap(
-              children: <Widget>[EditForm(item)],
-            ),
-          );
+          return UpdateDialog(item);
         });
   }
 
@@ -136,7 +132,7 @@ class IndexExpansionTile extends StatelessWidget {
                 if (used == null) {
                   used = 0;
                 }
-                if (used > item.amountInStock){
+                if (used > item.amountInStock) {
                   used = item.amountInStock;
                 }
                 item.amountInStock -= used;
@@ -174,7 +170,7 @@ class IndexExpansionTile extends StatelessWidget {
                 if (used == null) {
                   used = 0;
                 }
-                if (used > item.amountInStock){
+                if (used > item.amountInStock) {
                   used = item.amountInStock;
                 }
                 item.amountInStock -= used;
@@ -184,6 +180,40 @@ class IndexExpansionTile extends StatelessWidget {
           ),
         ],
         child: ExpansionTile(
+          leading: PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'edit') {
+                markShoppingList(context);
+              } else if (value == 'add') {
+                markBought(context).then((newStock) {
+                  if (newStock == null) {
+                    newStock = 0;
+                  }
+                  item.amountInStock += newStock;
+                  item.updateInDB(context);
+                });
+              } else if (value == 'subtract') {
+                markUsed(context).then((used) {
+                  if (used == null) {
+                    used = 0;
+                  }
+                  if (used > item.amountInStock) {
+                    used = item.amountInStock;
+                  }
+                  item.amountInStock -= used;
+                  item.updateInDB(context);
+                });
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(child: Text('edit'), value: 'edit'),
+                PopupMenuItem(child: Text('add'), value: 'add'),
+                PopupMenuItem(child: Text('subtract'), value: 'subtract'),
+              ];
+            },
+          ),
           title: Row(
             children: <Widget>[
               Expanded(
@@ -299,9 +329,10 @@ class ShopExpansionTile extends StatelessWidget {
             children: <Widget>[
               Expanded(
                   child:
-                      Text(item.name, textAlign: dirLang['tile_left'][lang])),
+                  Text(item.name, textAlign: dirLang['tile_left'][lang])),
               Expanded(
-                  child: Text('${expLang['need'][lang]} ${required.toStringAsFixed(2)}',
+                  child: Text(
+                      '${expLang['need'][lang]} ${required.toStringAsFixed(2)}',
                       textAlign: dirLang['tile_right'][lang])),
             ],
           ),

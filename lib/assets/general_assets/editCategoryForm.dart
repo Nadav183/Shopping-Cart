@@ -70,6 +70,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
             }),
           ),
           SwitchListTile(
+            //TODO:formLang
             title: Text('Display in Shopping Cart?'),
             value: widget.category.display,
             onChanged: (value) {
@@ -89,7 +90,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
                   genLang['save'][lang],
                   style: text['buttonText'],
                 ),
-                color: Colors.green,
+                color: colors['saveButton'],
                 onPressed: () {
                   if (!_formKey.currentState.validate()) {
                     if (_autovalidate == false) {
@@ -112,7 +113,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
                   genLang['cancel'][lang],
                   style: text['buttonText'],
                 ),
-                color: Colors.blue,
+                color: colors['cancelButton'],
                 onPressed: () {
                   Navigator.pop(context);
                 },

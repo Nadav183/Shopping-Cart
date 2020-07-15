@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:154088177690:android:5ea85f5c1ed935f91151a3",
+        "mobilesdk_app_id": "1:154088177690:android:c96b26949d2225391151a3",
         "android_client_info": {
-          "package_name": "com.nadav183.organizer"
+          "package_name": "com.example.organizer"
         }
       },
       "oauth_client": [

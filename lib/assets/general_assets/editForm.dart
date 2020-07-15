@@ -171,6 +171,7 @@ class _EditFormState extends State<EditForm> {
             },
             items: [
               DropdownMenuItem(
+                //TODO:language
                   child: Text('No Category'),
                   value: null
               ),
@@ -195,7 +196,7 @@ class _EditFormState extends State<EditForm> {
                   genLang['yes'][lang],
                   style: text['buttonText'],
                 ),
-                color: Colors.green,
+                color: colors['saveButton'],
                 onPressed: () {
                   if (!_formKey.currentState.validate()) {
                     if (_autovalidate == false) {
@@ -211,38 +212,19 @@ class _EditFormState extends State<EditForm> {
                 },
               ),
               Spacer(),
-              MaterialButton(
+              OutlineButton(
                 child: Text(
                   genLang['cancel'][lang],
-                  style: text['buttonText'],
+                  style: TextStyle(
+                      color: colors['cancelButton'],
+                      fontWeight: FontWeight.bold),
                 ),
-                color: Colors.blue,
+                borderSide: BorderSide(color: colors['cancelButton']),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
             ],
-          ),
-          MaterialButton(
-            child: RichText(
-              text: TextSpan(children: [
-                WidgetSpan(
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    )),
-                TextSpan(
-                    text: genLang['delete'][lang], style: text['buttonText'])
-              ]),
-            ),
-            color: Colors.red,
-            onPressed: () {
-              deleteConfirmationDialog(context).then((res) {
-                if (res) {
-                  Navigator.pop(context);
-                }
-              });
-            },
           ),
         ],
       ),
