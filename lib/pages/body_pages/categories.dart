@@ -130,16 +130,6 @@ class _CategoriesViewState extends State<CategoriesView> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   children: [
-                    RaisedButton(
-                      onPressed: () {
-                        newCategory(context).then((category) {
-                          if (category != null) {
-                            category.insertToDB(context);
-                          }
-                        });
-                      },
-                      child: Text('make category'),
-                    ),
                     ...List.generate(categoryList.length, (i) {
                       final category = categoryList[i];
                       var categoryItems = itemList

@@ -73,21 +73,14 @@ var drawerLang = {
 };
 
 var formLang = {
-  'delete':{
-    'EN':'Delete',
-    'HE':'מחק את'
+  'add': {'EN': 'Add Item', 'HE': 'הוסף מוצר'},
+  'delete': {'EN': 'Delete', 'HE': 'מחק את'},
+  'confirm1': {
+    'EN': 'Are you sure you want to delete the item',
+    'HE': 'האם אתה בטוח שברצונך למחוק את המוצר'
   },
-  'confirm1':{
-    'EN':'Are you sure you want to delete the item',
-    'HE':'האם אתה בטוח שברצונך למחוק את המוצר'
-  },
-  'confirm2':{
-    'EN':'from your inventory?',
-    'HE':'מהמחסן שלך?'
-  },
-  'name':{
-    'EN':'Item name',
-    'HE':'שם המוצר'
+  'confirm2': {'EN': 'from your inventory?', 'HE': 'מהמחסן שלך?'},
+  'name': {'EN': 'Item name', 'HE':'שם המוצר'
   },
   'name_val':{
     'EN':'Name is required',

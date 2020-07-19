@@ -32,6 +32,10 @@ class _MyAppBarState extends State<MyAppBar> {
                 .push(MaterialPageRoute(builder: (context) => SettingsView()));
           },
         ),
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {},
+        ),
       ],
     );
   }

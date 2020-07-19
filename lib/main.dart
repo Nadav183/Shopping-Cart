@@ -89,8 +89,10 @@ class _MyAppState extends State<MyApp> {
               child: Scaffold(
                 appBar: MyAppBar(bodyPage[curPage][1]),
                 body: (bodyPage[curPage][0]),
-                drawer: myDrawer(_changePage, bodyPage),
-                floatingActionButton: MySpeedDial(),
+                //drawer: myDrawer(_changePage, bodyPage),
+                floatingActionButton: MyFloatingButton(),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
                 bottomNavigationBar: MyBottomBar(bodyPage, _changePage),
               ),
             ),
