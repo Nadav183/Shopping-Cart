@@ -266,6 +266,13 @@ class DatabaseProvider {
     );
   }
 
+  Future<void> clearStock() async {
+    final db = await database;
+    print('got DB');
+    print('emptying items');
+    return await db.execute("UPDATE $TABLE_GROCERIES SET $COLUMN_STOCK=0");
+  }
+
   Future<String> getCategoryByID(int id) async {
     final db = await database;
     var categoryMap = await db.query(TABLE_CATEGORIES,

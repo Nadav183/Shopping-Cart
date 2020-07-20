@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:organizer/assets/general_assets/updateDialog.dart';
 
+import '../../assets/general_assets/updateDialog.dart';
 import '../objectClasses/item.dart';
 import '../../style/designStyle.dart';
 import '../../style/lang.dart';
-import 'editForm.dart';
 
 class IndexExpansionTile extends StatelessWidget {
   final Item item;
@@ -208,9 +207,11 @@ class IndexExpansionTile extends StatelessWidget {
             },
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem(child: Text('edit'), value: 'edit'),
-                PopupMenuItem(child: Text('add'), value: 'add'),
-                PopupMenuItem(child: Text('subtract'), value: 'subtract'),
+                PopupMenuItem(
+                    child: Text(expLang['edit'][lang]), value: 'edit'),
+                PopupMenuItem(child: Text(expLang['add'][lang]), value: 'add'),
+                PopupMenuItem(
+                    child: Text(expLang['subtract'][lang]), value: 'subtract'),
               ];
             },
           ),
@@ -227,7 +228,7 @@ class IndexExpansionTile extends StatelessWidget {
             Text('${expLang['base'][lang]} ${item.amountBase}'),
             Text(
                 '${expLang['price1'][lang]} ${required.toStringAsFixed(2)} ${expLang['price2'][lang]} ${currency(totalPrice)}'),
-            Text('Category = ${item.categoryName}'),
+            Text('${genLang['category'][lang]}: ${item.categoryName}'),
           ],
         ),
       ),

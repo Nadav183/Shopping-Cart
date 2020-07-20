@@ -27,6 +27,18 @@ class CategoriesView extends StatefulWidget {
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
+  var selectedItems = [];
+
+  onSelectItem(item) {
+    setState(() {
+      if (selectedItems.contains(item)) {
+        selectedItems.remove(item);
+      } else {
+        selectedItems.add(item);
+      }
+    });
+  }
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -38,7 +50,7 @@ class _CategoriesViewState extends State<CategoriesView> {
       },
     );
     DatabaseProvider.db.getItems().then(
-      (itemList) {
+          (itemList) {
         itemList.forEach((item) {
           if (item.categoryID != null) {
             DatabaseProvider.db.getCategoryByID(item.categoryID).then((string) {
@@ -108,18 +120,9 @@ class _CategoriesViewState extends State<CategoriesView> {
       key: _refreshIndicatorKey,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16),
-        child: BlocConsumer<CategoryBloc, List<Category>>(
-          buildWhen: (List<Category> previous, List<Category> current) {
-            return true;
-          },
-          listenWhen: (List<Category> previous, List<Category> current) {
-            if ((current != previous) && (previous.length != 0)) {
-              return true;
-            }
-            return true;
-          },
+        child: BlocBuilder<CategoryBloc, List<Category>>(
           builder: (context, categoryList) {
-            return BlocConsumer<ItemBloc, List<Item>>(
+            return BlocBuilder<ItemBloc, List<Item>>(
               builder: (context, itemList) {
                 var nullList = itemList
                     .where((element) => element.categoryID == null)
@@ -130,6 +133,23 @@ class _CategoriesViewState extends State<CategoriesView> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RaisedButton(
+                          child: Text('Empty Stock'),
+                          onPressed: () {
+                            DatabaseProvider.db.clearStock();
+                            DatabaseProvider.db.getItems().then((itemList) {
+                              BlocProvider.of<ItemBloc>(context)
+                                  .add(ItemEvent.setItems(itemList));
+                            });
+                          },
+                        ),
+                        SizedBox(width: 20),
+                        Text('Selected: ${selectedItems.length}'),
+                      ],
+                    ),
                     ...List.generate(categoryList.length, (i) {
                       final category = categoryList[i];
                       var categoryItems = itemList
@@ -162,7 +182,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                             ],
                             child: ExpansionTile(
                               childrenPadding:
-                                  EdgeInsets.symmetric(horizontal: 5),
+                              EdgeInsets.symmetric(horizontal: 5),
                               title: Row(
                                 children: [
                                   Text('${category.name}'),
@@ -171,7 +191,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                                 ],
                               ),
                               children:
-                                  List.generate(categoryItems.length, (i) {
+                              List.generate(categoryItems.length, (i) {
                                 return IndexExpansionTile(categoryItems[i]);
                               }),
                             ),
@@ -201,10 +221,8 @@ class _CategoriesViewState extends State<CategoriesView> {
                   ],
                 );
               },
-              listener: (BuildContext context, itemList) {},
             );
           },
-          listener: (BuildContext context, itemList) {},
         ),
       ),
     );

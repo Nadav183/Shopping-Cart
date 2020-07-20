@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:organizer/assets/objectClasses/category_class.dart';
-import 'package:organizer/bloc/category_bloc/category_bloc.dart';
 
+import '../../assets/objectClasses/category_class.dart';
+import '../../bloc/category_bloc/category_bloc.dart';
 import '../../style/lang.dart';
 import '../objectClasses/item.dart';
 import '../../style/designStyle.dart';

@@ -122,7 +122,8 @@ class _AddFormState extends State<AddForm> {
               });
             },
             items: [
-              DropdownMenuItem(child: Text('No Category'), value: null),
+              DropdownMenuItem(
+                  child: Text(shopLang['no_category'][lang]), value: null),
               ...categoriesList.map((category) {
                 return DropdownMenuItem(
                   child: Text(category.name),

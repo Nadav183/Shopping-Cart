@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:organizer/assets/objectClasses/category_class.dart';
 
+import '../../assets/objectClasses/category_class.dart';
 import '../../style/lang.dart';
 import '../../style/designStyle.dart';
 
@@ -70,8 +70,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
             }),
           ),
           SwitchListTile(
-            //TODO:formLang
-            title: Text('Display in Shopping Cart?'),
+            title: Text(formLang['display_list'][lang]),
             value: widget.category.display,
             onChanged: (value) {
               setState(() {

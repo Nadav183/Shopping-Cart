@@ -98,7 +98,7 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ),
               SwitchListTile(
-                title: Text('Show Uncategorized items in shopping cart?'),
+                title: Text(setLang['display_uncategorized'][lang]),
                 value: _showControl,
                 onChanged: (value) {
                   setState(() {

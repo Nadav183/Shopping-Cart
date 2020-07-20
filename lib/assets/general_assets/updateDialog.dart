@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:organizer/assets/objectClasses/item.dart';
-import 'package:organizer/style/lang.dart';
 
+import '../../assets/objectClasses/item.dart';
+import '../../style/lang.dart';
 import 'editForm.dart';
 
 class UpdateDialog extends StatelessWidget {
@@ -54,7 +54,6 @@ class UpdateDialog extends StatelessWidget {
                   right: 0.0,
                   child: IconButton(
                     onPressed: () {
-                      print('tapped');
                       deleteConfirmationDialog(context).then((res) {
                         if (res) {
                           Navigator.pop(context);

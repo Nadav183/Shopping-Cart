@@ -12,7 +12,6 @@ import 'assets/objectClasses/settings_class.dart';
 import 'bloc/item_bloc/item_bloc.dart';
 import 'bloc/settings_bloc/settings_bloc.dart';
 import 'pages/body_pages/new_shop.dart';
-import 'assets/main_assets/drawer.dart';
 import 'assets/main_assets/float.dart';
 
 void main() {

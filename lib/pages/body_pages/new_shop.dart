@@ -151,7 +151,7 @@ class _ShopState extends State<Shop> {
                         childrenPadding: EdgeInsets.symmetric(horizontal: 5),
                         title: Row(
                           children: [
-                            Text('No Category'),
+                            Text(shopLang['no_category'][lang]),
                             Spacer(),
                             Text('${offsetNulls.length}/${nullList.length}')
                           ],

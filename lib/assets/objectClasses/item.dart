@@ -23,6 +23,14 @@ class Item {
       this.categoryID,
       this.categoryName});
 
+  getOffset() {
+    return amountBase - amountInStock;
+  }
+
+  getPrice() {
+    return pricePerUnit * getOffset();
+  }
+
   ///maps the keys of the DB columns to the values of an Item
   ///If the id is null it will be automatically set on DB side as PK
   Map<String, dynamic> toMap() {

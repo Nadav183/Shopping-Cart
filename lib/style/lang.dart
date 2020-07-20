@@ -21,17 +21,10 @@ var dirLang = {
 };
 
 var genLang = {
-  'yes':{
-    'EN':'Yes',
-    'HE':'כן'
-  },
-  'no':{
-    'EN':'No',
-    'HE':'לא'
-  },
-  'confirm':{
-    'EN':'Confirm',
-    'HE':'אישור'
+  'category': {'EN': 'Category', 'HE': 'קטגוריה'},
+  'yes': {'EN': 'Yes', 'HE': 'כן'},
+  'no': {'EN': 'No', 'HE': 'לא'},
+  'confirm': {'EN': 'Confirm', 'HE':'אישור'
   },
   'cancel':{
     'EN':'Cancel',
@@ -120,30 +113,45 @@ var formLang = {
   },
   'base_val1':{
     'EN':'Base amount is required',
-    'HE':'נא להזין כמות בסיס'
+    'HE': 'נא להזין כמות בסיס'
   },
-  'base_val2':{
-    'EN':'Please enter a positive whole number',
-    'HE':'נא להזין מספר חיובי שלם'
+  'base_val2': {
+    'EN': 'Please enter a positive whole number',
+    'HE': 'נא להזין מספר חיובי שלם'
   },
-  'base_val3':{
-    'EN':'Base amount cannot be zero',
-    'HE':'כמות הבסיס חייבת להיות גדולה מאפס'
+  'base_val3': {
+    'EN': 'Base amount cannot be zero',
+    'HE': 'כמות הבסיס חייבת להיות גדולה מאפס'
   },
-
+  'display_list': {
+    'EN': 'Display in shopping cart?',
+    'HE': 'להציג בעגלת הקניות?'
+  },
 };
 
 var expLang = {
-  'base':{
-    'EN':'Base Amount:',
-    'HE':'כמות בסיס:'
+  'edit': {
+    'EN': 'Edit',
+    'HE': 'ערוך'
   },
-  'price1':{
-    'EN':'Need to buy',
-    'HE':'נותר לקנות'
+  'add': {
+    'EN': 'Add',
+    'HE': 'הוסף'
   },
-  'price2':{
-    'EN':'for',
+  'subtract': {
+    'EN': 'Subtract',
+    'HE': 'החסר'
+  },
+  'base': {
+    'EN': 'Base Amount:',
+    'HE': 'כמות בסיס:'
+  },
+  'price1': {
+    'EN': 'Need to buy',
+    'HE': 'נותר לקנות'
+  },
+  'price2': {
+    'EN': 'for',
     'HE':'בעלות של'
   },
   'update':{
@@ -219,23 +227,31 @@ var indLang = {
 };
 
 var shopLang = {
-  'price':{
-    'EN':'Total Price:',
-    'HE':'סכום כולל:'
+  'price': {
+    'EN': 'Total Price:',
+    'HE': 'סכום כולל:'
+  },
+  'no_category': {
+    'EN': 'No Category',
+    'HE': 'ללא קטגוריה'
   }
 };
 
 var setLang = {
-  'settings':{
-    'EN':'Settings',
-    'HE':'הגדרות'
+  'display_uncategorized': {
+    'EN': 'Display uncategorized items in shopping cart?',
+    'HE': 'להציג מוצרים חסרי קטגוריה בעגלה?'
   },
-  'nothing':{
-    'EN':'Nothing to see here yet',
-    'HE':'אין כאן מה לראות עדיין'
+  'settings': {
+    'EN': 'Settings',
+    'HE': 'הגדרות'
   },
-  'language':{
-    'EN':'Change Language',
+  'nothing': {
+    'EN': 'Nothing to see here yet',
+    'HE': 'אין כאן מה לראות עדיין'
+  },
+  'language': {
+    'EN': 'Change Language',
     'HE':'שנה שפה'
   },
   'theme':{

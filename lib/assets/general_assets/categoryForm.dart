@@ -36,8 +36,7 @@ class _CategoryFormState extends State<CategoryForm> {
             }),
           ),
           SwitchListTile(
-            //TODO: Formlang
-            title: Text('Display in Shopping Cart?'),
+            title: Text(formLang['display_list'][lang]),
             value: _display,
             onChanged: (value) {
               setState(() {
