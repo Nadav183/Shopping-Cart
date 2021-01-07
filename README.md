@@ -14,7 +14,7 @@ you just open the app when you are already at the shop and simply see all the it
 
 Flutter\Dart - The app itself is written in the Dart language over the Flutter framework. Utilizing the framework's Widget-based Object Oriented programming and it's asynchronous state-management capabilities.
 
-Bloc - The app's state-management is done with the Bloc package in addition to Flutter's state management, Bloc helped managing stateful objects that are managed by several Widgets in the app. For example, the list of groceries can be altered by adding, deleting or editing items, each of these can happen in various ways, which ultimately required the list's state to be separated from any specific stateful widget.
+BloC - The app's state-management is done with the BloC package which is based on the RX architecture in addition to Flutter's state management, Bloc helped managing stateful objects that are managed by several Widgets in the app. For example, the list of groceries can be altered by adding, deleting or editing items, each of these can happen in various ways, which ultimately required the list's state to be separated from any specific stateful widget.
 
 SQLITE - The data persistence in the app is done with a SQLITE-based DB kept locally on the phone. This is acheived with the "sqflite" Flutter package which allows running SQLITE commands in flutter and manage the DB using flutter. Some SQLITE commands were done with sqflite shortcut functions but most were done with raw SQLITE code.
 
