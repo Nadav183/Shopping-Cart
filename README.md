@@ -3,6 +3,8 @@
 An app to help manage a personal shopping list. 
 The app lets you make a list of items you wish to have in your house, along with their quantities and prices.
 
+Play Store - https://play.google.com/store/apps/details?id=com.nadav183.organizer
+
 The app then displays two screens:
 1. A stock screen - where you can keep track of the items you currently have
 2. A shopping list - An interactive list of items you are missing (based on the stock screen).
