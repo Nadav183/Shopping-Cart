@@ -26,6 +26,7 @@ Inventory Page:
  - Display your items in collapsable categories
  - Manage and follow the quantity you have of each item
  - Edit existing items
+
 Shopping Cart Page:
  - Display a shopping list based on your inventory
  - Swipe items to remove them from list once found
